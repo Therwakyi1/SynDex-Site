@@ -3,209 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S-Project | GitHub Template</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/umd/lucide.min.js"></script>
+    <title>SynDex | Professional Performance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #0d1117;
-            --bg-secondary: #161b22;
-            --border-color: #30363d;
-            --text-primary: #f0f6fc;
-            --text-secondary: #8b949e;
-            --accent-blue: #2f81f7;
-            --accent-hover: #58a6ff;
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-blue: #0084ff;
+            --card-bg: #111111;
+            --border-color: #222222;
+            --muted-text: #a1a1a1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Header */
-        header {
-            background-color: var(--bg-secondary);
-            padding: 16px 32px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 16px;
+        /* Subtle Glow Effect */
+        .glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(circle at center, rgba(0, 132, 255, 0.08) 0%, transparent 70%);
+            z-index: -1;
         }
 
-        .logo-placeholder {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(45deg, #2f81f7, #bc8cf2); /* Nod to your logo's colors */
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-        }
-
-        /* Repo Navigation */
-        .repo-header {
-            padding: 24px 32px 0 32px;
-        }
-
-        .repo-title {
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .badge {
-            border: 1px solid var(--border-color);
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        /* Main Content Grid */
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-            gap: 24px;
-            padding: 0 16px;
-        }
-
-        /* File List Style */
-        .file-box {
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background-color: var(--bg-main);
-        }
-
-        .file-row {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border-color);
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background 0.2s;
-        }
-
-        .file-row:hover {
-            background-color: var(--bg-secondary);
-        }
-
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .blue-link {
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .blue-link:hover { text-decoration: underline; }
-
-        /* Sidebar */
-        .sidebar-section {
-            margin-bottom: 24px;
+            padding: 1.5rem 8%;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 16px;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        h4 { margin-bottom: 8px; font-size: 14px; }
-
-        .btn-primary {
-            background-color: #238636; /* GitHub Green for 'Code' button */
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
+        .logo {
+            font-weight: 900;
+            font-size: 1.4rem;
+            letter-spacing: -1px;
+            text-transform: uppercase;
         }
 
-        .btn-outline {
-            background-color: var(--bg-secondary);
+        .logo span {
+            color: var(--accent-blue);
+        }
+
+        .nav-links a {
+            color: var(--muted-text);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        header {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 10%;
+        }
+
+        .badge {
+            background: rgba(0, 132, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 132, 255, 0.2);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+        }
+
+        p.hero-text {
+            color: var(--muted-text);
+            max-width: 550px;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 0.9rem 2.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--text-color);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        .btn-alt {
+            background: transparent;
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
+            margin-left: 1rem;
+        }
+
+        .features {
+            padding: 4rem 8% 8rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .feature-card p {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            padding: 3rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: #444;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-placeholder">S</div>
-    <div style="color: var(--text-secondary)">Search or jump to...</div>
-</header>
+    <div class="glow"></div>
 
-<div class="repo-header">
-    <div class="repo-title">
-        <span class="blue-link">Username</span> / <strong>S-Project-Core</strong>
-        <span class="badge">Public</span>
-    </div>
-</div>
-
-<main class="container">
-    <section>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
-            <div>
-                <button class="btn-outline">main <i data-lucide="chevron-down" style="width:12px"></i></button>
-            </div>
-            <button class="btn-primary"><i data-lucide="code" style="width:14px"></i> Code</button>
+    <nav>
+        <div class="logo">SYN<span>DEX</span></div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#access">Access</a>
+            <a href="#support">Support</a>
         </div>
+    </nav>
 
-        <div class="file-box">
-            <div class="file-row" style="background: var(--bg-secondary); font-size: 13px;">
-                <div class="file-info"><strong>User123</strong> <span style="color: var(--text-secondary)">Updated styling to match logo</span></div>
-                <div style="color: var(--text-secondary)">2 hours ago</div>
-            </div>
-            <div class="file-row">
-                <div class="file-info"><i data-lucide="folder" style="color: var(--accent-blue)"></i> <a href="#" class="blue-link">src</a></div>
-                <div style="color: var(--text-secondary)">Initial directory setup</div>
-            </div>
-            <div class="file-row">
-                <div class="file-info"><i data-lucide="file-text"></i> <a href="#" class="blue-link">README.md</a></div>
-                <div style="color: var(--text-secondary)">Added project documentation</div>
-            </div>
-            <div class="file-row">
-                <div class="file-info"><i data-lucide="settings"></i> <a href="#" class="blue-link">config.json</a></div>
-                <div style="color: var(--text-secondary)">Updated API endpoints</div>
-            </div>
+    <header>
+        <div class="badge">V2.0 STABLE RELEASE</div>
+        <h1>Powering the <br>Next Generation.</h1>
+        <p class="hero-text">SynDex provides a seamless, high-performance environment for execution and development. Efficiency meets elegance.</p>
+        <div>
+            <a href="#" class="btn">Get Started</a>
+            <a href="#" class="btn btn-alt">Documentation</a>
+        </div>
+    </header>
+
+    <section class="features" id="features">
+        <div class="feature-card">
+            <h3>Optimized Kernel</h3>
+            <p>Engineered for minimal latency and maximum throughput. SynDex runs where others crawl.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Clean Interface</h3>
+            <p>A clutter-free experience designed to keep you focused on what matters most: your work.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Secure Sync</h3>
+            <p>Your workspace is encrypted and synced across our global node network in real-time.</p>
         </div>
     </section>
 
-    <aside>
-        <div class="sidebar-section">
-            <h4>About</h4>
-            <p style="font-size: 14px; line-height: 1.5;">A professional repository template inspired by the 'S' logo. Built with Blue, White, and Black accents for maximum clarity.</p>
-        </div>
-        
-        <div class="sidebar-section">
-            <h4>Languages</h4>
-            <div style="display: flex; height: 8px; border-radius: 10px; overflow: hidden; margin-bottom: 8px;">
-                <div style="width: 70%; background: var(--accent-blue);"></div>
-                <div style="width: 20%; background: #f1e05a;"></div>
-                <div style="width: 10%; background: #e34c26;"></div>
-            </div>
-            <span style="font-size: 12px; color: var(--text-secondary);">TypeScript 70% • JavaScript 20% • HTML 10%</span>
-        </div>
-    </aside>
-</main>
-
-<script>
-    // Initialize icons
-    lucide.createIcons();
-</script>
+    <footer>
+        SYNDEX SOFTWARE SYSTEMS &copy; 2026
+    </footer>
 
 </body>
 </html>
- 
