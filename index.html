@@ -44,56 +44,228 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 8%;
+            padding: 1rem 8%;
             border-bottom: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
+            background: rgba(5, 5, 5, 0.8);
         }
 
-        .logo img {
-            height: 30px;
+        .logo-img {
+            height: 40px;
+            width: auto;
             display: block;
         }
 
-        .content-section {
+        .nav-links a {
+            color: var(--muted-text);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        header {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 10%;
+        }
+
+        .badge {
+            background: rgba(0, 132, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 132, 255, 0.2);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+        }
+
+        p.hero-text {
+            color: var(--muted-text);
+            max-width: 550px;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 0.9rem 2.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--text-color);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--text-color);
+        }
+
+        .showcase-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
+            gap: 4rem;
             padding: 4rem 8%;
             flex-wrap: wrap;
         }
 
-        .content-section img {
-            max-width: 500px;
+        .showcase-image {
+            max-width: 600px;
             width: 100%;
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
         }
 
-        .content-text {
+        .showcase-image:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-blue);
+        }
+
+        .showcase-text {
             flex: 1;
             min-width: 300px;
+        }
+
+        .showcase-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .showcase-text p {
+            color: var(--muted-text);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .features {
+            padding: 4rem 8% 8rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .feature-card p {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            padding: 3rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: #444;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .showcase-container {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="glow"></div>
-    
+
     <nav>
         <div class="logo">
-            <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" alt="SynDex">
+            <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" alt="SynDex Logo" class="logo-img">
+        </div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#showcase">Interface</a>
+            <a href="#">Support</a>
         </div>
     </nav>
 
-    <div class="content-section">
-        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="Screenshot">
-        <div class="content-text">
-            <h2>Professional Performance</h2>
-            <p>SynDex provides a clean, efficient interface for all your scripting needs. Designed with performance in mind and built for the community.</p>
+    <header>
+        <div class="badge">V2.0 STABLE RELEASE</div>
+        <h1>Unmatched Power.<br>Zero Compromise.</h1>
+        <p class="hero-text">SynDex V2 delivers the most stable backdoor environment on the market. Precision-built for the elite.</p>
+        <div>
+            <a href="#" class="btn">Get SynDex Now</a>
         </div>
-    </div>
+    </header>
+
+    <section class="showcase-container" id="showcase">
+        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="SynDex V2 Interface" class="showcase-image">
+        <div class="showcase-text">
+            <h2>Experience SynDex V2</h2>
+            <p>Our completely redesigned interface offers unparalleled control. Our users make backdoored games themselves, and we don't dictate it.</p>
+            <ul style="list-style: none; color: var(--accent-blue); font-weight: 700;">
+                <li>✓ Fastest script loading</li>
+                <li>✓ SS Support</li>
+                <li>✓ Instant Injection</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="feature-card">
+            <h3>Optimized UI</h3>
+            <p>Engineered for minimal latency and maximum satisfaction. SynDex runs where others crawl.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Clean Interface</h3>
+            <p>A clutter-free interface designed to keep you focused on what matters most: your work.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Secure Sync</h3>
+            <p>KronkSS keeps you secure 24/7 in RetroStudio games when you have us injected.</p>
+        </div>
+    </section>
+
+    <footer>
+        SYNDEX SOFTWARE SYSTEMS &copy; 2026
+    </footer>
+
 </body>
 </html>
