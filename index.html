@@ -44,63 +44,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 8%;
+            padding: 1.5rem 8%;
             border-bottom: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(5, 5, 5, 0.8);
         }
 
         .logo img {
-            height: 40px;
+            height: 30px;
             display: block;
         }
 
-        .showcase-container {
-            padding: 4rem 8%;
+        .content-section {
             display: flex;
             align-items: center;
-            gap: 40px;
+            justify-content: center;
+            gap: 2rem;
+            padding: 4rem 8%;
             flex-wrap: wrap;
         }
 
-        .showcase-image {
-            flex: 1;
-            min-width: 300px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .showcase-image img {
+        .content-section img {
+            max-width: 500px;
             width: 100%;
-            border-radius: 11px;
-            display: block;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
         }
 
-        .showcase-text {
+        .content-text {
             flex: 1;
             min-width: 300px;
-        }
-
-        .showcase-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--accent-blue);
-        }
-
-        .showcase-text p {
-            font-size: 1.1rem;
-            color: var(--muted-text);
-        }
-
-        @media (max-width: 768px) {
-            .showcase-container {
-                flex-direction: column;
-                text-align: center;
-            }
         }
     </style>
 </head>
@@ -109,19 +84,16 @@
     
     <nav>
         <div class="logo">
-            <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/SynDex%20Logo.png" alt="SynDex Logo">
+            <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" alt="SynDex">
         </div>
     </nav>
 
-    <section class="showcase-container">
-        <div class="showcase-image">
-            <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="SynDex Interface">
+    <div class="content-section">
+        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="Screenshot">
+        <div class="content-text">
+            <h2>Professional Performance</h2>
+            <p>SynDex provides a clean, efficient interface for all your scripting needs. Designed with performance in mind and built for the community.</p>
         </div>
-        <div class="showcase-text">
-            <h2>Powerful Script Library</h2>
-            <p>Experience ultimate control with SynDex. Our interface provides a seamless way to execute high-performance scripts with zero latency. Designed for professionals who demand efficiency and power.</p>
-        </div>
-    </section>
-
+    </div>
 </body>
 </html>
