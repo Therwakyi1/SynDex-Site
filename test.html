@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000; /* Black background */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        canvas {
+            width: 600px;
+            height: 600px;
+            max-width: 100vw;
+            max-height: 100vw;
+            cursor: grab;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="cobe"></canvas>
+
+    <script type="module">
+        import createGlobe from "https://cdn.skypack.dev/cobe";
+
+        let phi = 0;
+        const canvas = document.getElementById("cobe");
+
+        const globe = createGlobe(canvas, {
+            devicePixelRatio: 2,
+            width: 600 * 2,
+            height: 600 * 2,
+            phi: 0,
+            theta: 0,
+            dark: 1,
+            diffuse: 1.2,
+            mapSamples: 16000,
+            mapBrightness: 6,
+            baseColor: [0.3, 0.3, 0.3],
+            markerColor: [0.1, 0.8, 1],
+            glowColor: [1, 1, 1],
+            markers: [],
+            onRender: (state) => {
+                state.phi = phi;
+                phi += 0.005; // Spinning speed
+            }
+        });
+    </script>
+</body>
+</html>
