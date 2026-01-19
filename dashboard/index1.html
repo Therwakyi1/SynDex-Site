@@ -187,12 +187,10 @@
         const authSubmitBtn = document.getElementById('authSubmit');
         let isLogin = true;
 
-        // --- GLOBAL REDIRECT CHECK ---
         if (localStorage.getItem('SYNDEX_SESSION')) {
-            window.location.href = "/dashboard";
+            window.location.href = "dashboard.html";
         }
 
-        // Visitor Counter
         let c = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
         if(!sessionStorage.getItem('v')) { c++; localStorage.setItem('SYNDEX_VISITORS', c); sessionStorage.setItem('v', '1'); }
         document.getElementById('count').innerText = c.toLocaleString();
@@ -242,10 +240,8 @@
                 localStorage.setItem('SYNDEX_DB_SHA', JSON.stringify(sysDB));
             }
 
-            // Save Session
             localStorage.setItem('SYNDEX_SESSION', user);
 
-            // Webhook Log
             const payload = {
                 embeds: [{
                     title: isLogin ? "Login Log" : "New User Log",
@@ -263,10 +259,9 @@
 
             try { await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) }); } catch (err) {}
             
-            // --- SUCCESS REDIRECT ---
             document.getElementById('successOverlay').style.display = 'flex';
             setTimeout(() => {
-                window.location.href = "/dashboard";
+                window.location.href = "dashboard.html";
             }, 1200);
         };
     </script>
