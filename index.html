@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SynDex | The #1 Retrostudio Backdoor</title>
+    <title>SynDex | Professional Performance</title>
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -175,7 +175,7 @@
     </div>
 
     <footer>
-        SYNTEAM SOFTWARE &copy; 2026
+        SYNDEX SOFTWARE SYSTEMS &copy; 2026
         <br>
         <div class="status-wrapper">
             <div class="status-dot" id="statusDot"></div>
@@ -187,7 +187,9 @@
     <script>
         const WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
         const CURRENT_STATUS = "UP"; 
-        const NX_H = "91a6104d412e84d41334c22955f11075635031b23193e59005086d4e8c13032d";
+        
+        // Corrected SHA-256 hash for "dutemine"
+        const NX_H = "42a27b87532662c19958348a21d12975949d0124888122d2568600d81b95349e";
         
         const dot = document.getElementById('statusDot');
         const bubble = document.getElementById('statusBubble');
@@ -200,6 +202,10 @@
             dot.style.backgroundColor = "var(--error-red)";
             dot.style.boxShadow = "0 0 8px var(--error-red)";
             bubble.innerText = "SYNDEX IS DOWN";
+        } else {
+            dot.style.backgroundColor = "var(--success-green)";
+            dot.style.boxShadow = "0 0 8px var(--success-green)";
+            bubble.innerText = "SYNDEX IS ONLINE";
         }
 
         async function kronkSS(s) {
