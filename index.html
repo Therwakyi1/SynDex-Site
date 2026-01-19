@@ -204,7 +204,16 @@
 
         async function getHash(pass, user) {
             try {
-                await argon2.ready;
+                if (typeof argon2 === 'undefined' || !argon2.hash) {
+                    await new Promise(resolve => {
+                        const check = setInterval(() => {
+                            if (typeof argon2 !== 'undefined' && argon2.hash) {
+                                clearInterval(check);
+                                resolve();
+                            }
+                        }, 100);
+                    });
+                }
                 const salt = new TextEncoder().encode((user.toLowerCase() + "SYNDEX_SALT").slice(0, 16));
                 const result = await argon2.hash({
                     pass: pass,
@@ -235,11 +244,11 @@
             let sysDB = JSON.parse(localStorage.getItem('SYNDEX_DB_PROD') || '{}');
 
             authSubmitBtn.disabled = true;
-            authSubmitBtn.innerText = "Securing...";
+            authSubmitBtn.innerText = "Processing...";
 
             const hashedPass = await getHash(passInput, user);
             if (!hashedPass) {
-                error.innerText = "ENGINE ERROR.";
+                error.innerText = "ENGINE LOADING. TRY AGAIN.";
                 error.style.display = 'block';
                 authSubmitBtn.disabled = false;
                 authSubmitBtn.innerText = "Continue";
