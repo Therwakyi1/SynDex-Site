@@ -10,7 +10,7 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: white; display: grid; grid-template-columns: 260px 1fr; height: 100vh; margin: 0; overflow: hidden; }
         
         .sidebar { background: #0a0a0a; border-right: 1px solid var(--border-color); padding: 2rem; display: flex; flex-direction: column; gap: 10px; }
-        .logo-img { width: 100%; height: 50px; object-fit: contain; margin-bottom: 2rem; } /* UNSQUISHED */
+        .logo-img { width: 100%; height: 50px; object-fit: contain; margin-bottom: 2rem; }
         
         .nav-item { padding: 12px; border-radius: 6px; cursor: pointer; color: #a1a1a1; font-weight: 600; }
         .nav-item.active { background: rgba(255,255,255,0.05); color: white; border-left: 3px solid var(--accent-blue); }
@@ -48,8 +48,8 @@
         <div id="home" class="tab active"><h1>Welcome</h1><p>Ready for deployment.</p></div>
         
         <div id="exec" class="tab">
-            <h1>SynTax</h1>
-            <textarea id="scriptInput" class="editor" spellcheck="false">print("SynTax has loaded successfully.")</textarea>
+            <h1>Script Executor</h1>
+            <textarea id="scriptInput" class="editor" spellcheck="false">print("SynDex V2 Loaded Successfully")</textarea>
             <div id="output" class="output-box">Ready...</div>
             <div class="exec-btns">
                 <button class="btn-s btn-blue" onclick="runScript()">Inject</button>
@@ -82,7 +82,7 @@
 
         function runScript() {
             const out = document.getElementById('output');
-            out.innerHTML += `<br><span style="color:#00ff00;">[SynTax]:</span> Execution successful.`;
+            out.innerHTML += `<br><span style="color:#00ff00;">[SynDex]:</span> Execution successful.`;
             out.scrollTop = out.scrollHeight;
         }
 
