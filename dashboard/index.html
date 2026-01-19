@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SynDex | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-color: #050505; --accent-blue: #0084ff; --border-color: #222222; --sidebar-bg: #0a0a0a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: white; height: 100vh; display: grid; grid-template-columns: 260px 1fr; overflow: hidden; }
+        
+        .sidebar { background: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 2rem; display: flex; flex-direction: column; gap: 0.8rem; }
+        .logo { height: 30px; margin-bottom: 2.5rem; }
+        .nav-item { padding: 12px 15px; border-radius: 6px; cursor: pointer; color: #a1a1a1; transition: 0.2s; font-weight: 600; font-size: 0.9rem; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: white; }
+        .nav-item.active { border-left: 3px solid var(--accent-blue); border-radius: 0 6px 6px 0; color: white; }
+
+        .content { padding: 3.5rem; overflow-y: auto; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .editor { background: #0d0d0d; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; font-family: 'JetBrains Mono', monospace; height: 450px; width: 100%; color: #dcdcdc; resize: none; outline: none; margin-top: 1.5rem; font-size: 0.9rem; }
+        .btn-exec { background: var(--accent-blue); color: white; border: none; padding: 12px 30px; border-radius: 4px; cursor: pointer; font-weight: 700; margin-top: 1rem; }
+        
+        #logout { margin-top: auto; color: #ef4444; }
+    </style>
+</head>
+<body>
+    <script>
+        if (!localStorage.getItem('SYNDEX_SESSION')) { window.location.href = "index.html"; }
+    </script>
+
+    <div class="sidebar">
+        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" class="logo">
+        <div class="nav-item active" onclick="switchTab('home', this)">Home</div>
+        <div class="nav-item" onclick="switchTab('executor', this)">Executor</div>
+        <div class="nav-item" onclick="switchTab('settings', this)">Settings</div>
+        <div class="nav-item" onclick="switchTab('credits', this)">Credits</div>
+        <div class="nav-item" id="logout" onclick="logout()">Log Off</div>
+    </div>
+
+    <div class="content">
+        <div id="home" class="tab-content active">
+            <h1 id="welcome">Welcome</h1>
+            <p style="color: #a1a1a1; margin-top: 10px;">Select a tab from the left to begin.</p>
+        </div>
+
+        <div id="executor" class="tab-content">
+            <h1>Script Executor</h1>
+            <textarea class="editor" spellcheck="false">-- SynDex V2 Loader
+print("SynDex Authorized.")</textarea>
+            <button class="btn-exec">Execute</button>
+        </div>
+
+        <div id="settings" class="tab-content">
+            <h1>Settings</h1>
+            <div style="margin-top: 2rem; background: #111; padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                <p>User Identity: <span style="color: var(--accent-blue);" id="userId">None</span></p>
+                <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Security: SHA-256 AES Encryption Active</p>
+            </div>
+        </div>
+
+        <div id="credits" class="tab-content">
+            <h1>Credits</h1>
+            <p style="margin-top: 2rem;"><b>Nexus</b> - Lead Developer / Owner</p>
+            <p style="margin-top: 2rem"><b>Evil Admin</b> - Developer / SynTeam Member</p>
+            <p style="color: #a1a1a1;">SynTeam Software - Established 2025</p>
+        </div>
+    </div>
+
+    <script>
+        const user = localStorage.getItem('SYNDEX_SESSION');
+        document.getElementById('welcome').innerText = "Welcome Back, " + user;
+        document.getElementById('userId').innerText = user;
+
+        function switchTab(id, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
+        }
+
+        function logout() {
+            localStorage.removeItem('SYNDEX_SESSION');
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
