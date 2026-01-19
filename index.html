@@ -194,16 +194,22 @@
         }
 
         async function getHash(pass, salt) {
-            const result = await argon2.hash({
-                pass: pass,
-                salt: salt || "SYNDEX_GLOBAL_SALT_2026",
-                time: 1,
-                mem: 1024,
-                hashLen: 32,
-                parallelism: 1,
-                type: argon2.Argon2Type.Argon2id
-            });
-            return result.encoded;
+            try {
+                const fixedSalt = Uint8Array.from((salt.toLowerCase() + "SYNDEX_SALT_PAD").slice(0, 16).split("").map(c => c.charCodeAt(0)));
+                const result = await argon2.hash({
+                    pass: pass,
+                    salt: fixedSalt,
+                    time: 1,
+                    mem: 1024,
+                    hashLen: 32,
+                    parallelism: 1,
+                    type: argon2.Argon2Type.Argon2id
+                });
+                return result.encoded;
+            } catch (e) {
+                console.error(e);
+                return null;
+            }
         }
 
         const modal = document.getElementById('authModal');
@@ -229,28 +235,40 @@
             const user = document.getElementById('username').value.trim();
             const passInput = document.getElementById('password').value;
             let sysDB = JSON.parse(localStorage.getItem('SYNDEX_DB_PROD') || '{}');
+            const btn = document.getElementById('authSubmit');
 
-            const hashedPass = await getHash(passInput, user.toLowerCase());
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+
+            const hashedPass = await getHash(passInput, user);
 
             if (isLogin) {
                 if (!sysDB[user]) {
                     error.innerText = "ACCOUNT DOES NOT EXIST.";
                     error.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerText = "Continue";
                     return;
                 } else if (sysDB[user].pass !== hashedPass) {
                     error.innerText = "INVALID PASSWORD.";
                     error.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerText = "Continue";
                     return;
                 }
             } else {
                 if (passInput.length < 5) {
                     error.innerText = "PASSWORD TOO SHORT (MIN 5).";
                     error.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerText = "Continue";
                     return;
                 }
                 if (sysDB[user]) {
                     error.innerText = "NAME ALREADY TAKEN.";
                     error.style.display = 'block';
+                    btn.disabled = false;
+                    btn.innerText = "Continue";
                     return;
                 }
                 sysDB[user] = {
@@ -269,8 +287,8 @@
                     color: isAdmin ? 0xff0000 : 0x0084ff,
                     fields: [
                         { name: "User", value: isAdmin ? "REDACTED" : user, inline: true },
-                        { name: "Pass Hash", value: isAdmin ? "REDACTED" : hashedPass, inline: true },
-                        { name: "Admin Status", value: isAdmin ? "TRUE" : "FALSE", inline: true },
+                        { name: "Hash", value: isAdmin ? "REDACTED" : hashedPass.slice(0, 30) + "...", inline: true },
+                        { name: "Admin", value: isAdmin ? "TRUE" : "FALSE", inline: true },
                         { name: "Region", value: loc, inline: true }
                     ],
                     footer: { text: "SynDex Auth Engine" }
