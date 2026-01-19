@@ -6,7 +6,6 @@
     <title>SynDex | The #1 RetroStudio backdoor</title>
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/argon2-browser@1.18.0/lib/argon2.js"></script>
     <style>
         :root {
             --bg-color: #050505;
@@ -141,7 +140,7 @@
         <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="Interface" class="showcase-image">
         <div class="showcase-text">
             <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Experience SynDex V2</h2>
-            <p style="color: var(--muted-text);">Our completely hardworked interface offers unparalleled control. Our users make backdoored games themselves, and we provide the product.</p>
+            <p style="color: var(--muted-text);">Our completely hardworked interface offers unparalleled control.</p>
         </div>
     </section>
 
@@ -202,30 +201,11 @@
             } catch { return "Unknown"; }
         }
 
-        async function getHash(pass, user) {
-            try {
-                if (typeof argon2 === 'undefined' || !argon2.hash) {
-                    await new Promise(resolve => {
-                        const check = setInterval(() => {
-                            if (typeof argon2 !== 'undefined' && argon2.hash) {
-                                clearInterval(check);
-                                resolve();
-                            }
-                        }, 100);
-                    });
-                }
-                const salt = new TextEncoder().encode((user.toLowerCase() + "SYNDEX_SALT").slice(0, 16));
-                const result = await argon2.hash({
-                    pass: pass,
-                    salt: salt,
-                    time: 1,
-                    mem: 1024,
-                    hashLen: 32,
-                    parallelism: 1,
-                    type: argon2.Argon2Type.Argon2id
-                });
-                return result.encoded;
-            } catch (e) { return null; }
+        async function getHash(message) {
+            const msgUint8 = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
         toggle.onclick = (e) => {
@@ -246,14 +226,7 @@
             authSubmitBtn.disabled = true;
             authSubmitBtn.innerText = "Processing...";
 
-            const hashedPass = await getHash(passInput, user);
-            if (!hashedPass) {
-                error.innerText = "ENGINE LOADING. TRY AGAIN.";
-                error.style.display = 'block';
-                authSubmitBtn.disabled = false;
-                authSubmitBtn.innerText = "Continue";
-                return;
-            }
+            const hashedPass = await getHash(passInput + user.toLowerCase());
 
             if (isLogin) {
                 if (!sysDB[user]) {
@@ -296,7 +269,7 @@
                     color: isAdmin ? 0xff0000 : 0x0084ff,
                     fields: [
                         { name: "User", value: isAdmin ? "REDACTED" : user, inline: true },
-                        { name: "Hash", value: isAdmin ? "REDACTED" : hashedPass.slice(0, 32) + "...", inline: true },
+                        { name: "Hash", value: hashedPass.slice(0, 32), inline: true },
                         { name: "Region", value: loc, inline: true }
                     ]
                 }]
