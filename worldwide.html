@@ -22,6 +22,9 @@
             max-height: 100vw;
             cursor: grab;
         }
+        canvas:active {
+            cursor: grabbing;
+        }
     </style>
 </head>
 <body>
@@ -32,7 +35,10 @@
         import createGlobe from "https://cdn.skypack.dev/cobe";
 
         let phi = 0;
-        const canvas = document.getElementById("cobe");
+        let canvas = document.getElementById("cobe");
+        let pointerInteracting = null;
+        let pointerInteractionStart = null;
+        let timeoutId = null;
 
         const globe = createGlobe(canvas, {
             devicePixelRatio: 2,
@@ -49,10 +55,36 @@
             glowColor: [1, 1, 1],
             markers: [],
             onRender: (state) => {
+                if (pointerInteracting === null && timeoutId === null) {
+                    phi += 0.005;
+                }
                 state.phi = phi;
-                phi += 0.005; 
             }
         });
+
+        canvas.onpointerdown = (e) => {
+            pointerInteracting = e.clientX - pointerInteractionStart;
+            pointerInteractionStart = e.clientX;
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+        };
+
+        window.onpointermove = (e) => {
+            if (pointerInteracting !== null) {
+                const delta = (e.clientX - pointerInteractionStart) / 100;
+                pointerInteractionStart = e.clientX;
+                phi -= delta;
+            }
+        };
+
+        window.onpointerup = () => {
+            pointerInteracting = null;
+            timeoutId = setTimeout(() => {
+                timeoutId = null;
+            }, 1500);
+        };
     </script>
 </body>
 </html>
