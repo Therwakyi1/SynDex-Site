@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-Project | GitHub Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/umd/lucide.min.js"></script>
+    <style>
+        :root {
+            --bg-main: #0d1117;
+            --bg-secondary: #161b22;
+            --border-color: #30363d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-blue: #2f81f7;
+            --accent-hover: #58a6ff;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--bg-secondary);
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-placeholder {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, #2f81f7, #bc8cf2); /* Nod to your logo's colors */
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Repo Navigation */
+        .repo-header {
+            padding: 24px 32px 0 32px;
+        }
+
+        .repo-title {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge {
+            border: 1px solid var(--border-color);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Main Content Grid */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 24px;
+            padding: 0 16px;
+        }
+
+        /* File List Style */
+        .file-box {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-main);
+        }
+
+        .file-row {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .file-row:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .blue-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .blue-link:hover { text-decoration: underline; }
+
+        /* Sidebar */
+        .sidebar-section {
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        h4 { margin-bottom: 8px; font-size: 14px; }
+
+        .btn-primary {
+            background-color: #238636; /* GitHub Green for 'Code' button */
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-placeholder">S</div>
+    <div style="color: var(--text-secondary)">Search or jump to...</div>
+</header>
+
+<div class="repo-header">
+    <div class="repo-title">
+        <span class="blue-link">Username</span> / <strong>S-Project-Core</strong>
+        <span class="badge">Public</span>
+    </div>
+</div>
+
+<main class="container">
+    <section>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+            <div>
+                <button class="btn-outline">main <i data-lucide="chevron-down" style="width:12px"></i></button>
+            </div>
+            <button class="btn-primary"><i data-lucide="code" style="width:14px"></i> Code</button>
+        </div>
+
+        <div class="file-box">
+            <div class="file-row" style="background: var(--bg-secondary); font-size: 13px;">
+                <div class="file-info"><strong>User123</strong> <span style="color: var(--text-secondary)">Updated styling to match logo</span></div>
+                <div style="color: var(--text-secondary)">2 hours ago</div>
+            </div>
+            <div class="file-row">
+                <div class="file-info"><i data-lucide="folder" style="color: var(--accent-blue)"></i> <a href="#" class="blue-link">src</a></div>
+                <div style="color: var(--text-secondary)">Initial directory setup</div>
+            </div>
+            <div class="file-row">
+                <div class="file-info"><i data-lucide="file-text"></i> <a href="#" class="blue-link">README.md</a></div>
+                <div style="color: var(--text-secondary)">Added project documentation</div>
+            </div>
+            <div class="file-row">
+                <div class="file-info"><i data-lucide="settings"></i> <a href="#" class="blue-link">config.json</a></div>
+                <div style="color: var(--text-secondary)">Updated API endpoints</div>
+            </div>
+        </div>
+    </section>
+
+    <aside>
+        <div class="sidebar-section">
+            <h4>About</h4>
+            <p style="font-size: 14px; line-height: 1.5;">A professional repository template inspired by the 'S' logo. Built with Blue, White, and Black accents for maximum clarity.</p>
+        </div>
+        
+        <div class="sidebar-section">
+            <h4>Languages</h4>
+            <div style="display: flex; height: 8px; border-radius: 10px; overflow: hidden; margin-bottom: 8px;">
+                <div style="width: 70%; background: var(--accent-blue);"></div>
+                <div style="width: 20%; background: #f1e05a;"></div>
+                <div style="width: 10%; background: #e34c26;"></div>
+            </div>
+            <span style="font-size: 12px; color: var(--text-secondary);">TypeScript 70% • JavaScript 20% • HTML 10%</span>
+        </div>
+    </aside>
+</main>
+
+<script>
+    // Initialize icons
+    lucide.createIcons();
+</script>
+
+</body>
+</html>
