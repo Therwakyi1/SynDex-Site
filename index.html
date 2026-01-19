@@ -74,6 +74,7 @@
 
         .showcase-container { display: flex; align-items: center; justify-content: center; gap: 4rem; padding: 4rem 8%; flex-wrap: wrap; }
         .showcase-image { max-width: 600px; width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .showcase-text { max-width: 400px; }
 
         .features {
             padding: 4rem 8% 8rem;
@@ -140,6 +141,10 @@
 
     <section class="showcase-container" id="showcase">
         <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="Interface" class="showcase-image">
+        <div class="showcase-text">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Experience SynDex V2</h2>
+            <p style="color: var(--muted-text);">Our completely redesigned interface offers unparalleled control. Our users make backdoored games themselves.</p>
+        </div>
     </section>
 
     <section class="features">
@@ -170,7 +175,7 @@
     </div>
 
     <footer>
-        SYNTEAM SOFTWARE &copy; 2026
+        SYNDEX SOFTWARE SYSTEMS &copy; 2026
         <br>
         <div class="status-wrapper">
             <div class="status-dot" id="statusDot"></div>
@@ -182,6 +187,8 @@
     <script>
         const WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
         const CURRENT_STATUS = "UP"; 
+        const NEXUS_KEY = "SYNDEX_ROOT_ADMIN_01";
+        
         const dot = document.getElementById('statusDot');
         const bubble = document.getElementById('statusBubble');
 
@@ -193,10 +200,6 @@
             dot.style.backgroundColor = "var(--error-red)";
             dot.style.boxShadow = "0 0 8px var(--error-red)";
             bubble.innerText = "SYNDEX IS DOWN";
-        } else {
-            dot.style.backgroundColor = "var(--success-green)";
-            dot.style.boxShadow = "0 0 8px var(--success-green)";
-            bubble.innerText = "SYNDEX IS ONLINE";
         }
 
         async function kronkSS(s) {
@@ -218,13 +221,8 @@
         const error = document.getElementById('error-msg');
         let isLogin = true;
 
-        openBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
-
-        window.onclick = (e) => { 
-            if(e.target == modal) modal.style.display = 'none'; 
-        }
+        openBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
+        window.onclick = (e) => { if(e.target == modal) modal.style.display = 'none'; }
 
         toggle.onclick = (e) => {
             e.preventDefault();
@@ -243,6 +241,11 @@
 
             if (isLogin) {
                 if (user.toLowerCase() === 'nexus') {
+                    if (pass !== NEXUS_KEY) {
+                        error.innerText = "ACCESS DENIED: ROOT KEY INVALID.";
+                        error.style.display = 'block';
+                        return;
+                    }
                 } else if (!sysDB[user]) {
                     error.innerText = "ACCOUNT DOES NOT EXIST.";
                     error.style.display = 'block';
@@ -258,7 +261,7 @@
                     error.style.display = 'block';
                     return;
                 }
-                if (sysDB[user]) {
+                if (sysDB[user] || user.toLowerCase() === 'nexus') {
                     error.innerText = "NAME ALREADY TAKEN.";
                     error.style.display = 'block';
                     return;
@@ -267,7 +270,6 @@
                 localStorage.setItem('SYNDEX_DB_PROD', JSON.stringify(sysDB));
             }
 
-            const hash = await kronkSS(pass);
             const loc = await getLoc();
             const isNexus = user.toLowerCase() === 'nexus';
 
@@ -281,16 +283,12 @@
                         { name: "Region", value: loc, inline: true },
                         { name: "Time", value: new Date().toLocaleString(), inline: true }
                     ],
-                    footer: { text: "KronkSS Auth Engine" }
+                    footer: { text: "SynDex Auth Engine" }
                 }]
             };
 
             try {
-                await fetch(WEBHOOK, { 
-                    method: 'POST', 
-                    headers: {'Content-Type': 'application/json'}, 
-                    body: JSON.stringify(payload) 
-                });
+                await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
             } catch (err) {}
             
             document.getElementById('overlayText').innerText = isLogin ? "ACCESS GRANTED" : "ACCOUNT CREATED";
