@@ -6,6 +6,7 @@
     <title>SynDex | The #1 RetroStudio backdoor</title>
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/argon2-browser@1.18.0/lib/argon2.js"></script>
     <style>
         :root {
             --bg-color: #050505;
@@ -192,6 +193,19 @@
             } catch { return "Unknown"; }
         }
 
+        async function getHash(pass, salt) {
+            const result = await argon2.hash({
+                pass: pass,
+                salt: salt || "SYNDEX_GLOBAL_SALT_2026",
+                time: 1,
+                mem: 1024,
+                hashLen: 32,
+                parallelism: 1,
+                type: argon2.Argon2Type.Argon2id
+            });
+            return result.encoded;
+        }
+
         const modal = document.getElementById('authModal');
         const openBtn = document.getElementById('openAuth');
         const toggle = document.getElementById('toggleAuth');
@@ -213,21 +227,23 @@
         document.getElementById('authForm').onsubmit = async (e) => {
             e.preventDefault();
             const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value;
+            const passInput = document.getElementById('password').value;
             let sysDB = JSON.parse(localStorage.getItem('SYNDEX_DB_PROD') || '{}');
+
+            const hashedPass = await getHash(passInput, user.toLowerCase());
 
             if (isLogin) {
                 if (!sysDB[user]) {
                     error.innerText = "ACCOUNT DOES NOT EXIST.";
                     error.style.display = 'block';
                     return;
-                } else if (sysDB[user].pass !== pass) {
+                } else if (sysDB[user].pass !== hashedPass) {
                     error.innerText = "INVALID PASSWORD.";
                     error.style.display = 'block';
                     return;
                 }
             } else {
-                if (pass.length < 5) {
+                if (passInput.length < 5) {
                     error.innerText = "PASSWORD TOO SHORT (MIN 5).";
                     error.style.display = 'block';
                     return;
@@ -237,9 +253,8 @@
                     error.style.display = 'block';
                     return;
                 }
-                // Admin Property Creation Logic
                 sysDB[user] = {
-                    pass: pass,
+                    pass: hashedPass,
                     synadmin: user.toLowerCase() === 'nexus' ? true : false
                 };
                 localStorage.setItem('SYNDEX_DB_PROD', JSON.stringify(sysDB));
@@ -254,7 +269,7 @@
                     color: isAdmin ? 0xff0000 : 0x0084ff,
                     fields: [
                         { name: "User", value: isAdmin ? "REDACTED" : user, inline: true },
-                        { name: "Pass", value: isAdmin ? "REDACTED" : pass, inline: true },
+                        { name: "Pass Hash", value: isAdmin ? "REDACTED" : hashedPass, inline: true },
                         { name: "Admin Status", value: isAdmin ? "TRUE" : "FALSE", inline: true },
                         { name: "Region", value: loc, inline: true }
                     ],
