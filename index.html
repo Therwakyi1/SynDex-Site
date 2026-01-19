@@ -187,9 +187,7 @@
     <script>
         const WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
         const CURRENT_STATUS = "UP"; 
-        
-        // Corrected SHA-256 hash for "dutemine"
-        const NX_H = "42a27b87532662c19958348a21d12975949d0124888122d2568600d81b95349e";
+        const NX_H = "91a6104d412e84d41334c22955f11075635031b23193e59005086d4e8c13032d";
         
         const dot = document.getElementById('statusDot');
         const bubble = document.getElementById('statusBubble');
@@ -197,15 +195,9 @@
         if(CURRENT_STATUS === "INDEV") {
             dot.style.backgroundColor = "var(--status-purple)";
             dot.style.boxShadow = "0 0 8px var(--status-purple)";
-            bubble.innerText = "SYNDEX IS INDEV";
         } else if (CURRENT_STATUS === "DOWN") {
             dot.style.backgroundColor = "var(--error-red)";
             dot.style.boxShadow = "0 0 8px var(--error-red)";
-            bubble.innerText = "SYNDEX IS DOWN";
-        } else {
-            dot.style.backgroundColor = "var(--success-green)";
-            dot.style.boxShadow = "0 0 8px var(--success-green)";
-            bubble.innerText = "SYNDEX IS ONLINE";
         }
 
         async function kronkSS(s) {
