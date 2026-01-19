@@ -19,6 +19,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
         .glow {
@@ -45,10 +46,12 @@
         }
 
         .nav-links { display: flex; align-items: center; }
-        .nav-links a {
+        .nav-links a, .nav-links span.logout-btn {
             color: var(--muted-text); text-decoration: none;
             margin-left: 2.5rem; font-size: 0.85rem; font-weight: 500;
+            transition: color 0.2s;
         }
+        .nav-links a:hover, .nav-links span.logout-btn:hover { color: var(--text-color); cursor: pointer; }
 
         header {
             min-height: 60vh; display: flex; flex-direction: column;
@@ -72,8 +75,18 @@
             border: 1px solid var(--text-color); cursor: pointer; display: inline-block;
         }
 
-        .showcase-container { display: flex; align-items: center; justify-content: center; gap: 4rem; padding: 6rem 8%; flex-wrap: wrap; border-top: 1px solid var(--border-color); }
-        .showcase-image { max-width: 600px; width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .showcase-container { 
+            display: flex; align-items: center; justify-content: center; 
+            gap: 4rem; padding: 6rem 8%; flex-wrap: wrap; border-top: 1px solid var(--border-color); 
+            perspective: 1000px;
+        }
+        .showcase-image { 
+            max-width: 600px; width: 100%; border-radius: 12px; 
+            border: 1px solid var(--border-color); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
         .showcase-text { max-width: 400px; }
 
         .features {
@@ -122,7 +135,8 @@
             <div class="visitor-counter">VISITORS: <span id="count">1,241</span></div>
         </div>
         <div class="nav-links">
-            <span id="userDisplay" style="color: var(--muted-text); font-size: 0.75rem; margin-right: 15px; font-weight: 700; display: none;"></span>
+            <span id="userDisplay" style="color: var(--muted-text); font-size: 0.75rem; font-weight: 700; display: none;"></span>
+            <span id="logoutBtn" class="logout-btn" style="display: none;">Logout</span>
             <a href="#showcase">Interface</a>
             <a href="https://discord.gg/bA4PH3gvRN">Discord</a>
         </div>
@@ -136,7 +150,7 @@
     </header>
 
     <section class="showcase-container" id="showcase">
-        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="Interface" class="showcase-image">
+        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="Interface" class="showcase-image" id="tiltImg">
         <div class="showcase-text">
             <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Experience SynDex V2</h2>
             <p style="color: var(--muted-text);">Our completely hardworked interface offers unparalleled control. Our users make backdoored games themselves, and we provide the product.</p>
@@ -188,6 +202,8 @@
         const error = document.getElementById('error-msg');
         const authSubmitBtn = document.getElementById('authSubmit');
         const userDisplay = document.getElementById('userDisplay');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const tiltImg = document.getElementById('tiltImg');
         let isLogin = true;
 
         function updateUI() {
@@ -195,9 +211,33 @@
             if (session) {
                 userDisplay.innerText = `Logged in as: ${session}`;
                 userDisplay.style.display = "inline";
+                logoutBtn.style.display = "inline";
+            } else {
+                userDisplay.style.display = "none";
+                logoutBtn.style.display = "none";
             }
         }
         updateUI();
+
+        logoutBtn.onclick = () => {
+            localStorage.removeItem('SYNDEX_SESSION');
+            updateUI();
+        };
+
+        tiltImg.addEventListener('mousemove', (e) => {
+            const rect = tiltImg.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (centerY - y) / 15;
+            const rotateY = (x - centerX) / 15;
+            tiltImg.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        });
+
+        tiltImg.addEventListener('mouseleave', () => {
+            tiltImg.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+        });
 
         let c = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
         if(!sessionStorage.getItem('v')) { c++; localStorage.setItem('SYNDEX_VISITORS', c); sessionStorage.setItem('v', '1'); }
