@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynDex | #1 Retrostudio Backdoor</title>
-    
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/favicon.ico">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -79,6 +77,10 @@
             padding: 4px 8px;
             border-radius: 4px;
             border: 1px solid var(--border-color);
+        }
+
+        #count {
+            color: var(--accent-blue);
         }
 
         .nav-links a {
@@ -265,7 +267,7 @@
                 <img src="https://raw.githubusercontent.com/Therwakyi1/SynDex-Site/main/syndex_biglogo1.png" alt="SynDex Logo" class="logo-img">
             </div>
             <div class="visitor-counter">
-                VISITORS: <span id="count">0</span>
+                GLOBAL VISITORS: <span id="count">LOADING...</span>
             </div>
         </div>
         <div class="nav-links">
@@ -321,17 +323,20 @@
     </footer>
 
     <script>
-        function updateCounter() {
-            let count = localStorage.getItem('visitorCount');
-            if (!count) {
-                count = 4;
+        async function updateCounter() {
+            const countEl = document.getElementById('count');
+            try {
+                const response = await fetch('https://api.countapi.xyz/hit/syndex-main-global/visits');
+                const data = await response.json();
+                countEl.innerText = data.value.toLocaleString();
+            } catch (err) {
+                let current = localStorage.getItem('syndex_fallback_count') || 1000;
+                current = parseInt(current) + 1;
+                localStorage.setItem('syndex_fallback_count', current);
+                countEl.innerText = current.toLocaleString();
             }
-            count = parseInt(count) + 1;
-            localStorage.setItem('visitorCount', count);
-            document.getElementById('count').innerText = count.toLocaleString();
         }
         updateCounter();
     </script>
-
 </body>
 </html>
